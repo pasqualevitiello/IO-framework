@@ -14,13 +14,9 @@
     "build:js": "onchange 'assets/js/*.js' -e 'assets/js/*.min.js' -e 'assets/js/vendor' -i -w -- npm run run:js",
     "build:scss": "npm run run:sass && npm run run:sass -- -w",
     "build:css": "postcss --local-plugins -w -u css-mqpacker --css-mqpacker.sort autoprefixer -d . css/style.css",
-    "sync": "onchange '**/*' -e 'dist' -e '.git' -e 'sass' -e 'languages' -e 'assets/js/*.min.js' -e 'css' -w -- npm run run:sync",
     "server": "browser-sync start --server --files '**/*.css'",
     "dirs": "mkdir -p css; touch css/style.css;",
-    "build": "npm run dirs -s; npm-run-all --silent --parallel build:*",
-    "build-sync": "npm run dirs -s; npm-run-all --silent --parallel build:* sync",
-    "build-server": "npm run dirs -s; npm-run-all --silent --parallel build:* server",
-    "build-sync-server": "npm run dirs -s; npm-run-all --silent --parallel build:* sync server",
+    "build": "npm run dirs -s; npm-run-all --silent --parallel",
     "dist": "rm -rf dist; mkdir -p dist"
   },
   "devDependencies": {

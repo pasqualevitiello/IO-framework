@@ -57,34 +57,37 @@ SITE
 @import "normalize/normalize";
 @import "normalize/reset";
 
-// ELEMENTS
-@import "elements/page";
-@import "elements/headings";
-@import "elements/copy";
-@import "elements/images";
-@import "elements/tables";
-@import "elements/buttons";
-@import "elements/fields";
-@import "elements/lists";
-@import "elements/media";
-@import "elements/galleries";
-@import "elements/pagination";
+// TYPOGRAPHY
+@import "typography/typography";
 
-// UTILITIES
-@import "shared/alignments";
-@import "shared/accessibility";
-@import "shared/clearings";
+// // ELEMENTS
+// @import "elements/page";
+// @import "elements/headings";
+// @import "elements/copy";
+// @import "elements/images";
+// @import "elements/tables";
+// @import "elements/buttons";
+// @import "elements/fields";
+// @import "elements/lists";
+// @import "elements/media";
+// @import "elements/galleries";
+// @import "elements/pagination";
 
-// LAYOUT
-@import "layout/wrapper";
-@import "layout/layout";
-@import "layout/content";
-@import "layout/sidebar";
+// // UTILITIES
+// @import "shared/alignments";
+// @import "shared/accessibility";
+// @import "shared/clearings";
 
-// SITE
-@import "site/navigation";
-@import "site/header";
-@import "site/footer";
-@import "site/posts-and-pages";
-@import "site/comments";
-@import "site/widgets";
+// // LAYOUT
+// @import "layout/wrapper";
+// @import "layout/layout";
+// @import "layout/content";
+// @import "layout/sidebar";
+
+// // SITE
+// @import "site/navigation";
+// @import "site/header";
+// @import "site/footer";
+// @import "site/posts-and-pages";
+// @import "site/comments";
+// @import "site/widgets";
