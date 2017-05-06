@@ -1,0 +1,16 @@
+/*--------------------------------------------------------------
+>>> STRUCTURE
+----------------------------------------------------------------
+*/
+
+.container {
+	position: relative;
+	width: $width_small;
+	max-width: $width_desktop;
+	margin: 0 auto;
+}
+
+article {
+	max-width: $width_medium;
+	margin: 0 auto;
+}

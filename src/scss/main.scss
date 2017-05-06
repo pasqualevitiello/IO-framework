@@ -13,10 +13,16 @@ TYPOGRAPHY
 	xxx ............... xxx.
 */
 
+// SETTINGS
+@import "settings"; 
+
 // NORMALIZE
 @import "normalize/box-sizing";
 @import "normalize/normalize";
 @import "normalize/reset";
+
+// STRUCTURE
+@import "structure/structure"; 
 
 // TYPOGRAPHY
 @import "typography/typography"; 
