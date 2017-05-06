@@ -5,9 +5,26 @@
 
 .container {
 	position: relative;
-	width: $width_small;
+	width: 100%;
 	max-width: $width_desktop;
 	margin: 0 auto;
+	padding-left: $gutter_width;
+	padding-right: $gutter_width;
+}
+
+.columns {
+	display: flex;
+	margin-left: -$gutter_width;
+	margin-right: -$gutter_width;
+}
+
+.column {
+	flex-basis: 0;
+	-webkit-box-flex: 1;
+	flex-grow: 1;
+	flex-shrink: 1;
+	padding-left: $gutter_width;
+	padding-right: $gutter_width;
 }
 
 article {

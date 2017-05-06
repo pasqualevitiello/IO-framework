@@ -48,6 +48,7 @@ $leading-rem: $leading / $base;
 
 // Desktop base & leading
 $base-desktop: 16 * ($base-font-size-desktop / 100);
+//$base-rem-desktop: $base-font-size-desktop / 100 ;
 $leading-desktop: round($base-desktop * $line-height-desktop);
 $leading-rem-desktop: $leading-desktop / $base-desktop;
 

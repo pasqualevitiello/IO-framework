@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<title>Grid</title>
+	<link rel="stylesheet" href="dist/css/main.css">
+</head>
+<body>
+	<div class="container">
+		<div class="log" style="background:rgba(0,0,0,.3);padding:8px;text-align:center;"></div>
+		<div class="columns">
+			<div class="column"><span class="log" style="display: block;text-align: center;margin-top:8px;background:rgba(0,0,255,.3);">Col</span></div>
+			<div class="column"><span class="log" style="display: block;text-align: center;margin-top:8px;background:rgba(0,0,255,.3);">Col</span></div>
+			<div class="column"><span class="log" style="display: block;text-align: center;margin-top:8px;background:rgba(0,0,255,.3);">Col</span></div>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+	function outputSizes() {
+		var containerW = $('.container > div').outerWidth();
+		var sidesW = ( ( $(window).width() - containerW ) / 2 ).toFixed(1);
+		$('.container > div.log').text(sidesW + ' - ' + containerW.toFixed(1) + ' - ' + sidesW);
+	}
+
+	outputSizes();
+	$(window).on('resize', function() {
+		outputSizes();
+	});
+	</script>
+</body>
+</html>

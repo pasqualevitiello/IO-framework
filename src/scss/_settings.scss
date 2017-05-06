@@ -3,7 +3,19 @@
 ----------------------------------------------------------------
 */
 
+// 8-point base units
+$base_2:  2px;
+$base_4:  4px;
+$base_8:  8px;
+$base:    $base_8;
+$base_16: 16px;
+$base_24: 24px;
+$base_32: 32px;
+
 // Structure widths
 $width_small:   90%;
 $width_medium:  640px;
-$width_desktop: 1170px;
+$width_desktop: 1000px;
+
+// Gutter width
+$gutter_width: 16px;
