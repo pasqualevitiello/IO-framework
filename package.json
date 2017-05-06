@@ -2,41 +2,45 @@
   "name": "IO-framework",
   "description": "A CSS Framework.",
   "version": "1.0.0",
-  "license": "GPL-3.0",
-  "homepage": "https://github.com/pasqualevitiello/IO-framework",
+  "license": "MIT",
   "author": "Pasquale Vitiello http://pasqualevitiello.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pasqualevitiello/IO-framework"
+  },
   "scripts": {
-    "test": "xo",
-    "run:sass": "node-sass -o css sass --output-style expanded",
-    "run:xo": "xo --fix || true",
-    "minify:js": "rm -f assets/js/*.min.js; for f in assets/js/*.js; do short=${f%.js}; uglifyjs $f > $short.min.js; done",
-    "run:js": "npm-run-all --silent --parallel run:xo minify:js",
-    "build:js": "onchange 'assets/js/*.js' -e 'assets/js/*.min.js' -e 'assets/js/vendor' -i -w -- npm run run:js",
-    "build:scss": "npm run run:sass && npm run run:sass -- -w",
-    "build:css": "postcss --local-plugins -w -u css-mqpacker --css-mqpacker.sort autoprefixer -d . css/style.css",
-    "server": "browser-sync start --server --files '**/*'",
-    "dirs": "mkdir -p css; touch css/style.css;",
-    "build": "npm run dirs -s; npm-run-all --silent --parallel build:*",
-    "build-watch": "onchange '**/*' -w -- npm-run-all build server",
-    "dist": "rm -rf dist; mkdir -p dist"
+    "clean": "rimraf dist/{css/*,js/*}",
+    "autoprefixer": "postcss -u autoprefixer -r dist/css/*",
+    "scss": "node-sass --output-style expanded -o dist/css src/scss",
+    "lint": "eslint src/js || true",
+    "lint-scss": "stylelint src/scss/*.scss --syntax scss || true",
+    "uglify": "mkdirp dist/js -p && uglifyjs src/js/*.js -m -o dist/js/main.js && uglifyjs src/js/*.js -m -c -o dist/js/main.min.js",
+    "serve": "browser-sync start --server --files \"dist/css/*.css, dismaint/js/*.js, **/*.html, !node_modules/**/*.html\"",
+    "build:css": "npm run lint-scss && npm run scss && npm run autoprefixer",
+    "build:js": "npm run lint && npm run uglify",
+    "build:all": "npm run build:css && npm run build:js",
+    "watch:css": "onchange \"src/scss\" -- npm run build:css",
+    "watch:js": "onchange \"src/js\" -- npm run build:js",
+    "watch:all": "npm-run-all -p serve watch:css watch:js",
+    "postinstall": "npm run build:all && npm run watch:all"
   },
   "devDependencies": {
-    "autoprefixer": "latest",
-    "browser-sync": "latest",
-    "css-mqpacker": "latest",
-    "node-sass": "latest",
-    "npm-run-all": "latest",
-    "onchange": "latest",
-    "sass-mq": "latest",
-    "uglify-js": "latest",
-    "xo": "latest"
-  },
-  "xo": {
-    "ignores": [
-      "assets/js/vendor/**"
-    ],
-    "env": [
-      "browser"
-    ]
+    "autoprefixer": "^6.7.7",
+    "browser-sync": "^2.18.8",
+    "css-mqpacker": "^5.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.5.2",
+    "npm-run-all": "^4.0.2",
+    "onchange": "^3.2.1",
+    "postcss-cli": "^3.2.0",
+    "rimraf": "^2.6.1",
+    "stylelint": "^7.10.1",
+    "uglify-js": "^2.8.22"
   }
 }
