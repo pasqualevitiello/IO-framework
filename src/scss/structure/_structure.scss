@@ -8,8 +8,8 @@
 	width: 100%;
 	max-width: $width_desktop;
 	margin: 0 auto;
-	padding-left: $gutter_width;
-	padding-right: $gutter_width;
+	padding-left: $gutter_width * 2;
+	padding-right: $gutter_width * 2;
 }
 
 .columns {
@@ -42,52 +42,54 @@
 	flex: none;
 }
 
-.column-1 {
-    width: 8.333333%
-}
+@include breakpoint($bp_m) {
+	.column-1 {
+	    width: 8.333333%
+	}
 
-.column-2 {
-    width: 16.666667%
-}
+	.column-2 {
+	    width: 16.666667%
+	}
 
-.column-3 {
-    width: 25%
-}
+	.column-3 {
+	    width: 25%
+	}
 
-.column-4 {
-    width: 33.333333%
-}
+	.column-4 {
+	    width: 33.333333%
+	}
 
-.column-5 {
-    width: 41.666667%
-}
+	.column-5 {
+	    width: 41.666667%
+	}
 
-.column-6 {
-    width: 50%
-}
+	.column-6 {
+	    width: 50%
+	}
 
-.column-7 {
-    width: 58.333333%
-}
+	.column-7 {
+	    width: 58.333333%
+	}
 
-.column-8 {
-    width: 66.666667%
-}
+	.column-8 {
+	    width: 66.666667%
+	}
 
-.column-9 {
-    width: 75%
-}
+	.column-9 {
+	    width: 75%
+	}
 
-.column-10 {
-    width: 83.333333%
-}
+	.column-10 {
+	    width: 83.333333%
+	}
 
-.column-11 {
-    width: 91.666667%
-}
+	.column-11 {
+	    width: 91.666667%
+	}
 
-.column-12 {
-    width: 100%
+	.column-12 {
+	    width: 100%
+	}
 }
 
 article {
