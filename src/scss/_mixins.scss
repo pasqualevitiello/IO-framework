@@ -3,54 +3,25 @@
 ----------------------------------------------------------------
 */
 
-// Breakpoints https://medium.com/developing-with-sass/creating-a-dead-simple-sass-mixin-to-handle-responsive-breakpoints-889927b37740
+// Breakpoints 
+// (Rimuovere?) Crafted from https://medium.com/developing-with-sass/creating-a-dead-simple-sass-mixin-to-handle-responsive-breakpoints-889927b37740
 @mixin breakpoint($min: 0, $max: 0) {
-  $type: type-of($min);
- 
-  @if $type == string {
-    @if $min == xs {
-    	@media (max-width: $bp_s - 1) { @content; }
-    }
-
-    @else if $min == s {
-    	@media (min-width: $bp_s) { @content; }
-    }
-
-    @else if $min == m {
-    	@media (min-width: $bp_m) { @content; }
-    }
-
-    @else if $min == l {
-    	@media (min-width: $bp_l) { @content; }
-    }
-
-    @else if $min == xl {
-    	@media (min-width: $bp_xl) { @content; }
-    }
-
-    @else {
-    	@warn "Breakpoint mixin supports: xs, sm, md, lg";
-    }
-  }
- 
-  @else if $type == number {
+	$type: type-of($min);
     $query: "all" !default;
 
     @if $min != 0 and $max != 0 { 
-      $query: "(min-width: #{$min}) and (max-width: #{$max})"; 
+    	$query: "(min-width: #{$min}) and (max-width: #{$max})"; 
     }
 
     @else if $min != 0 and $max == 0 { 
-      $query: "(min-width: #{$min})"; 
+    	$query: "(min-width: #{$min})"; 
     }
 
     @else if $min == 0 and $max != 0 { 
-      $query: "(max-width: #{$max})"; 
+    	$query: "(max-width: #{$max})"; 
     }
 
     @media #{$query} { 
-      @content;
+    	@content;
     }
-  }
- 
 }
