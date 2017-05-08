@@ -22,7 +22,19 @@ $bp_xl:  1200px; //val temp
 // Structure widths
 $width_small:   90%;
 $width_medium:  672px;
-$width_desktop: 1088px;
+$width_desktop: 1024px;
 
 // Gutter width
-$gutter_width: 16px;
+$gutter_width: 8px;
+
+// Typography
+$font_size: 16px;
+$font_size_desktop: 18px;
+$line-height: 1.778;
+$p_spacing: $line-height + rem;
+
+// Colors
+$color_font_body: #222;
+$color_font_headings: $color_font_body;
+$color_font_light: #888;
+$color_font_figcaption: $color_font_body;

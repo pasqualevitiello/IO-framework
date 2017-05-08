@@ -1,0 +1,30 @@
+/* Defaults
+========================================================================== */
+
+// Font defaults
+
+@import url("https://fonts.googleapis.com/css?family=Merriweather:400,700,400italic");
+
+html {
+	font-size: $font_size;
+	line-height: $line-height;
+	font-family: Merriweather, Georgia, serif;;
+	color: $color_font_body;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+
+	@include breakpoint($bp_m) {
+		font-size: $font_size_desktop;
+	}
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin-bottom: $p_spacing;
+}

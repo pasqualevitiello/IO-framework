@@ -8,23 +8,15 @@
 	width: 100%;
 	max-width: $width_desktop;
 	margin: 0 auto;
-	padding-left: $gutter_width;
-	padding-right: $gutter_width;
-	@include breakpoint($bp_l) {
-		padding-left: $gutter_width * 2;
-		padding-right: $gutter_width * 2;
-	}
+	padding-left: $gutter_width * 2;
+	padding-right: $gutter_width * 2;
 }
 
 .columns {
-	margin-left: -($gutter_width / 2);
-	margin-right: -($gutter_width / 2);
+	margin-left: -$gutter_width;
+	margin-right: -$gutter_width;
 	@include breakpoint($bp_m) {
 		display: flex;
-	}
-	@include breakpoint($bp_l) {
-		margin-left: -$gutter_width;
-		margin-right: -$gutter_width;
 	}
 }
 
@@ -34,12 +26,8 @@
 	-webkit-box-flex: 1;
 	flex-grow: 1;
 	flex-shrink: 1;
-	padding-left: $gutter_width / 2;
-	padding-right: $gutter_width / 2;
-	@include breakpoint($bp_l) {
-		padding-left: $gutter_width;
-		padding-right: $gutter_width;
-	}
+	padding-left: $gutter_width;
+	padding-right: $gutter_width;
 }
 
 @include breakpoint($bp_m) {
