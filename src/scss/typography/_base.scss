@@ -7,7 +7,7 @@
 
 html {
 	font-size: $font_size;
-	line-height: $line-height;
+	line-height: $line_height_root;
 	font-family: Merriweather, Georgia, serif;;
 	color: $color_font_body;
 	-ms-text-size-adjust: 100%;
@@ -19,12 +19,136 @@ html {
 
 }
 
+// Font size
+h1 {
+	font-size: $font_size_h1;
+}
+
+h2 {
+	font-size: $font_size_h2;
+}
+
+h3 {
+	font-size: $font_size_h3;
+}
+
+h4 {
+	font-size: $font_size_h4;
+}
+
+h5,
+h6 {
+	font-size: $font_size_h_;
+}
+
+// Font style
+h6 {
+	font-style: italic;
+}
+
+code, kbd, pre, samp {
+    font-family: monospace, monospace;
+}
+
+pre {
+    overflow: auto;
+}
+
+// Line height
 h1,
 h2,
 h3,
+h4 {
+	line-height: $line_height_headings;
+}
+
+// Margin Top
+h1,
+h2,
+h3 {
+	margin-top: $p_spacing_double;
+}
+
 h4,
 h5,
-h6,
-p:not(:last-child) {
+h6 {
+	margin-top: $p_spacing;
+}
+
+// Margin Bottom
+h1,
+p:not(:last-child),
+ol,
+ul,
+blockquote,
+hr,
+pre {
 	margin-bottom: $p_spacing;
+}
+
+h2,
+h3,
+h4 {
+	margin-bottom: $p_spacing_half;	
+}
+
+// Headings margins: Special cases
+h1 + h1,
+h2 + h1,
+h3 + h1,
+h1 + h2,
+h2 + h2,
+h3 + h2,
+h1 + h3,
+h2 + h3,
+h3 + h3,
+hr + h1,
+hr + h2,
+hr + h3 {
+	margin-top: $p_spacing;
+}
+
+// Separators
+hr {
+	height: $p_spacing;
+	margin-top: $p_spacing;
+	text-align: center;
+	display: block;
+	border: 0;
+
+	&::before {
+	    content: "···";
+	    letter-spacing: 1em;
+	}
+}
+
+// Quotes
+blockquote,
+cite {
+	padding-left: $p_spacing;
+}
+
+blockquote cite {
+	// Remove padding-left if a cite tag is placed inside a blockquote tag
+	padding-left: 0;
+}
+
+blockquote {
+	font-style: italic;
+	margin-top: $p_spacing_double;
+
+	> p {
+		font-size: $font_size_h3;
+		//line-height: $line_height_headings;
+		//line-height: 1.666;
+	}
+}
+
+// Lists
+ol, ul {
+    padding-left: $p_spacing;
+
+    &:last-child {
+    	margin-bottom: 0;
+    }
 }

@@ -30,8 +30,18 @@ $gutter_width: 8px;
 // Typography
 $font_size: 16px;
 $font_size_desktop: 18px;
-$line-height: 1.778;
-$p_spacing: $line-height + rem;
+$line_height_root: 1.7778;
+$line_height_headings: 1.414;
+$p_spacing: $line-height_root + rem;
+$p_spacing_half: ($line-height_root / 2) + rem;
+$p_spacing_double: ($line-height_root * 2) + rem;
+
+// Typographic scale
+$font_size_h1: 2.5rem;
+$font_size_h2: 1.687rem;
+$font_size_h3: 1.375rem;
+$font_size_h4: 1.2rem;
+$font_size_h_: 1rem;
 
 // Colors
 $color_font_body: #222;
