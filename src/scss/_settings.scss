@@ -4,13 +4,17 @@
 */
 
 // 8-point base units
-$base_2:  2px;
-$base_4:  4px;
-$base_8:  8px;
-$base:    $base_8;
-$base_16: 16px;
-$base_24: 24px;
-$base_32: 32px;
+$base_px: 8px;
+$base_d4: $base_px / 4;
+$base_d2: $base_px / 2;
+$base:    $base_px;
+$base_x2: $base_px * 2;
+$base_x3: $base_px * 3;
+$base_x4: $base_px * 4;
+$base_x5: $base_px * 5;
+$base_x6: $base_px * 6;
+$base_x7: $base_px * 7;
+$base_x8: $base_px * 8;
 
 // Breakpoints
 $bp_s:   480px; //val temp
@@ -30,7 +34,7 @@ $gutter_width: 8px;
 // Typography
 $font_size: 16px;
 $font_size_desktop: 18px;
-$line_height_root: 1.7778;
+$line_height_root: 1.777778;
 $line_height_headings: 1.414;
 $p_spacing: $line-height_root + rem;
 $p_spacing_half: ($line-height_root / 2) + rem;

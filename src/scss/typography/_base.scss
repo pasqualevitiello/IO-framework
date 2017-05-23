@@ -66,13 +66,19 @@ h4 {
 h1,
 h2,
 h3 {
-	margin-top: $p_spacing_double;
+	margin-top: $base_x6;
+	@include breakpoint($bp_m) {
+		margin-top: $base_x8;
+	}
 }
 
 h4,
 h5,
 h6 {
-	margin-top: $p_spacing;
+	margin-top: $base_x3;
+	@include breakpoint($bp_m) {
+		margin-top: $base_x4;
+	}
 }
 
 // Margin Bottom
@@ -83,13 +89,19 @@ ul,
 blockquote,
 hr,
 pre {
-	margin-bottom: $p_spacing;
+	margin-bottom: $base_x3;
+	@include breakpoint($bp_m) {
+		margin-bottom: $base_x4;
+	}
 }
 
 h2,
 h3,
 h4 {
-	margin-bottom: $p_spacing_half;	
+	margin-bottom: $base;
+	@include breakpoint($bp_m) {
+		margin-bottom: $base_x2;
+	}
 }
 
 // Headings margins: Special cases
@@ -105,16 +117,24 @@ h3 + h3,
 hr + h1,
 hr + h2,
 hr + h3 {
-	margin-top: $p_spacing;
+	margin-top: $base_x3;
+	@include breakpoint($bp_m) {
+		margin-top: $base_x4;
+	}
 }
 
 // Separators
 hr {
-	height: $p_spacing;
-	margin-top: $p_spacing;
+	height: $base_x3;
+	margin-top: $base_x3;
 	text-align: center;
 	display: block;
 	border: 0;
+
+	@include breakpoint($bp_m) {
+		height: $base_x4;
+		margin-top: $base_x4;
+	}
 
 	&::before {
 	    content: "···";
@@ -125,7 +145,11 @@ hr {
 // Quotes
 blockquote,
 cite {
-	padding-left: $p_spacing;
+	padding-left: $base_x3;
+
+	@include breakpoint($bp_m) {
+		padding-left: $base_x4;
+	}
 }
 
 blockquote cite {
@@ -135,18 +159,24 @@ blockquote cite {
 
 blockquote {
 	font-style: italic;
-	margin-top: $p_spacing_double;
+	margin-top: $base_x6;
+
+	@include breakpoint($bp_m) {
+		margin-top: $base_x8;
+	}
 
 	> p {
 		font-size: $font_size_h3;
-		//line-height: $line_height_headings;
-		//line-height: 1.666;
 	}
 }
 
 // Lists
 ol, ul {
-    padding-left: $p_spacing;
+    padding-left: $base_x3;
+
+    @include breakpoint($bp_m) {
+    	padding-left: $base_x4;
+    }
 
     &:last-child {
     	margin-bottom: 0;
