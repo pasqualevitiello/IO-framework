@@ -32,7 +32,8 @@ h3 {
 	font-size: $font_size_h3;
 }
 
-h4 {
+h4,
+p.attention-grabber {
 	font-size: $font_size_h4;
 }
 
@@ -58,7 +59,9 @@ pre {
 h1,
 h2,
 h3,
-h4 {
+h4,
+p.attention-grabber,
+blockquote {
 	line-height: $line_height_headings;
 }
 
@@ -82,13 +85,20 @@ h6 {
 }
 
 // Margin Bottom
-h1,
 p:not(:last-child),
 ol,
 ul,
-blockquote,
-hr,
 pre {
+	margin-bottom: $base_x2;
+	@include breakpoint($bp_m) {
+		margin-bottom: $base_x3;
+	}
+}
+
+h1,
+p.attention-grabber,
+blockquote,
+hr {
 	margin-bottom: $base_x3;
 	@include breakpoint($bp_m) {
 		margin-bottom: $base_x4;
