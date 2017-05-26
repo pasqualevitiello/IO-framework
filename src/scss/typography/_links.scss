@@ -1,0 +1,21 @@
+/*--------------------------------------------------------------
+>>> Links
+----------------------------------------------------------------
+*/
+
+a {
+	color: $color_font_anchors;
+	text-decoration: none;
+	border-bottom: solid 1px;
+	-webkit-tap-highlight-color: rgba( $color_primary, .2 );
+
+	&:hover {
+		opacity: .8;
+	}
+
+	&:hover,
+	&:active,
+	&:focus {
+		outline: 0;
+	}
+}
