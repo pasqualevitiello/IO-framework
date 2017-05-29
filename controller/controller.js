@@ -44,13 +44,10 @@ window.googlefonts = window.googlefonts || {};
             fonts;
 
         function _updateHash() {
-
             window.location.hash = currentFont.replace(/\s/g, '');
-
         }
 
         function _loadHash() {
-
             var hash = window.location.hash.substring(1),
                 fontIndex;
 
@@ -71,7 +68,6 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _display() {
-
             $('body').addClass('is-loaded');
 
             for (var i = 0, l = fonts.length; i < l; i++) {
@@ -83,7 +79,6 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _updateFont() {
-
             WebFont.load({
                 google: {
                     families: [currentFont + ':300,400,700']
@@ -96,9 +91,7 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _setupAPI() {
-
             gapi.client.setApiKey(apiKey);
-
             gapi.client.load('webfonts', 'v1', function() {
 
                 var request = gapi.client.webfonts.webfonts.list();
@@ -112,7 +105,6 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _bindEvents() {
-
             dropdown.on('change', function() {
                 currentFont = $(this).val().toString();
                 _updateFont();
