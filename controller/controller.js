@@ -39,12 +39,12 @@ window.googlefonts = window.googlefonts || {};
     googlefonts.LoadFonts = (function() {
 
         var dropdown = $( '#headings-fonts' ),
-            preview = $( 'h1' ),
-            currentFont,
+            headings = $( 'h1, h2, h3, h4, h5, h6' ),
+            currentFontHeadings,
             fonts;
 
         function _updateHash() {
-            window.location.hash = currentFont.replace(/\s/g, '');
+            window.location.hash = currentFontHeadings.replace(/\s/g, '');
         }
 
         function _loadHash() {
@@ -53,7 +53,7 @@ window.googlefonts = window.googlefonts || {};
 
             $.each(fonts, function(index, item) {
                 if (item.family.replace(/\s/g, '') === hash) {
-                    currentFont = item.family;
+                    currentFontHeadings = item.family;
                     fontIndex = index;
                     return false;
                 }
@@ -81,11 +81,11 @@ window.googlefonts = window.googlefonts || {};
         function _updateFont() {
             WebFont.load({
                 google: {
-                    families: [currentFont + ':300,400,700']
+                    families: [currentFontHeadings + ':300,400,700']
                 }
             });
 
-            preview.css('font-family', currentFont);
+            headings.css('font-family', currentFontHeadings);
 
             _updateHash();
         }
@@ -106,7 +106,7 @@ window.googlefonts = window.googlefonts || {};
 
         function _bindEvents() {
             dropdown.on('change', function() {
-                currentFont = $(this).val().toString();
+                currentFontHeadings = $(this).val().toString();
                 _updateFont();
             });
         }
