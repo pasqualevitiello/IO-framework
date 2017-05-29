@@ -38,28 +38,71 @@ window.googlefonts = window.googlefonts || {};
 
     googlefonts.LoadFonts = (function() {
 
-        var dropdown = $( '#headings-fonts' ),
+        var dropdownHeadings = $( '#headings-fonts' ),
+        	dropdownBody = $( '#body-fonts' ),
             headings = $( 'h1, h2, h3, h4, h5, h6' ),
+            body = $( 'body' ),
             currentFontHeadings,
             fonts;
 
-        function _updateHash() {
-            window.location.hash = currentFontHeadings.replace(/\s/g, '');
+        function _getParam() {
+              var paramString = window.location.search.substr( 1 );
+              return paramString != null && paramString != "" ? _transformToAssocArray( paramString ) : {};
         }
 
-        function _loadHash() {
-            var hash = window.location.hash.substring(1),
+        function _transformToAssocArray( paramString ) {
+            var params = {};
+            var paramsArray = paramString.split( '&' );
+            for ( var i = 0; i < paramsArray.length; i++ ) {
+                var tempArray = paramsArray[i].split( '=' );
+                params[tempArray[0]] = tempArray[1];
+            }
+            return params;
+        }
+
+        function _insertParam( key, value ) {
+            key = escape( key ); value = escape( value );
+
+            var kvp = document.location.search.substr( 1 ).split( '&' );
+            if ( kvp == '' ) {
+                history.pushState({}, '', '?' + key + '=' + value );
+            } else {
+
+                var i = kvp.length; var x; while ( i-- ) {
+                    x = kvp[i].split( '=' );
+
+                    if ( x[0] == key ) {
+                        x[1] = value;
+                        kvp[i] = x.join( '=' );
+                        break;
+                    }
+                }
+
+                if ( i < 0 ) { kvp[kvp.length] = [key, value].join( '=' ); }
+
+                history.pushState({}, '', '?' + kvp.join( '&' ) );
+            }
+        }
+
+        function _updateParam() {
+            _insertParam( 'headings', currentFontHeadings.replace( /\s/g, '' ) );
+        }
+
+        function _loadParam() {
+            var hash = _getParam().headings,
                 fontIndex;
 
             $.each(fonts, function(index, item) {
                 if (item.family.replace(/\s/g, '') === hash) {
                     currentFontHeadings = item.family;
+                    //currentFontBody = item.family;
                     fontIndex = index;
                     return false;
                 }
             });
 
-            dropdown.find('option').eq(fontIndex).attr('selected', 'selected');
+            dropdownHeadings.find('option').eq(fontIndex).attr('selected', 'selected');
+            //dropdownBody.find('option').eq(fontIndex).attr('selected', 'selected');
 
             if (hash !== '') {
                 _updateFont();
@@ -71,10 +114,11 @@ window.googlefonts = window.googlefonts || {};
             $('body').addClass('is-loaded');
 
             for (var i = 0, l = fonts.length; i < l; i++) {
-                dropdown.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
+                dropdownHeadings.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
+                //dropdownBody.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
             }
 
-            _loadHash();
+            _loadParam();
 
         }
 
@@ -86,8 +130,9 @@ window.googlefonts = window.googlefonts || {};
             });
 
             headings.css('font-family', currentFontHeadings);
+            //body.css('font-family', currentFontBody);
 
-            _updateHash();
+            _updateParam();
         }
 
         function _setupAPI() {
@@ -105,10 +150,14 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _bindEvents() {
-            dropdown.on('change', function() {
+            dropdownHeadings.on('change', function() {
                 currentFontHeadings = $(this).val().toString();
                 _updateFont();
             });
+            // dropdownBody.on('change', function() {
+            //     currentFontBody = $(this).val().toString();
+            //     _updateFont();
+            // });
         }
 
         function init() {
