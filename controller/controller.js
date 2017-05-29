@@ -10,7 +10,6 @@ document.body.insertBefore( controllerWrapper, document.body.firstChild );
  */
 // https://stackoverflow.com/questions/13856272/google-fonts-getting-a-list-of-available-fonts-through-ajax
 // https://vivekdragon.wordpress.com/2012/12/07/google-font-api-for-select/
-// https://github.com/lefoy/google-fonts/blob/master/public/js/components/GoogleFonts.js
 
 // Google API key
 var apiKey = 'AIzaSyBS2UUiahoRjToJ9g2C5Je1aHcwfFKkHPQ';
@@ -29,7 +28,8 @@ document.body.appendChild( webfontsScript );
 var controllerTypography = '<div class="typography-controller"><select id="headings-fonts"></select><select id="body-fonts"></select></div>';
 controllerWrapper.innerHTML = controllerTypography;
 
-
+// Load Google Fonts - Crafted from:
+// https://github.com/lefoy/google-fonts/blob/master/public/js/components/GoogleFonts.js
 window.googlefonts = window.googlefonts || {};
 
 (function(window, document, $) {
@@ -132,6 +132,7 @@ window.googlefonts = window.googlefonts || {};
 
 })(window, document, $);
 
+// Init loadFonts
 var loadFonts = function() {
     window.googlefonts.LoadFonts.init();
 };
