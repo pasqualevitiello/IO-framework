@@ -43,11 +43,12 @@ window.googlefonts = window.googlefonts || {};
             headings = $( 'h1, h2, h3, h4, h5, h6' ),
             body = $( 'body' ),
             currentFontHeadings,
+            currentFontBody,
             fonts;
 
         function _getParam() {
-              var paramString = window.location.search.substr( 1 );
-              return paramString != null && paramString != "" ? _transformToAssocArray( paramString ) : {};
+            var paramString = window.location.search.substr( 1 );
+            return paramString != null && paramString != '' ? _transformToAssocArray( paramString ) : {};
         }
 
         function _transformToAssocArray( paramString ) {
@@ -84,30 +85,34 @@ window.googlefonts = window.googlefonts || {};
             }
         }
 
-        function _updateParam() {
-            _insertParam( 'headings', currentFontHeadings.replace( /\s/g, '' ) );
+        function _updateParams() {        	
+            currentFontHeadings && _insertParam( 'headings', currentFontHeadings.replace( /\s/g, '' ) );
+            currentFontBody && _insertParam( 'body', currentFontBody.replace( /\s/g, '' ) );
         }
 
-        function _loadParam() {
-            var hash = _getParam().headings,
-                fontIndex;
+        function _loadParams() {
+            var headingsParam = _getParam().headings,
+            	bodyParam = _getParam().body,
+                fontIndexHeadings,
+                fontIndexBody;
 
             $.each(fonts, function(index, item) {
-                if (item.family.replace(/\s/g, '') === hash) {
-                    currentFontHeadings = item.family;
-                    //currentFontBody = item.family;
-                    fontIndex = index;
-                    return false;
-                }
+            	if (item.family.replace(/\s/g, '') === headingsParam) {
+            	    currentFontHeadings = item.family;
+            	    fontIndexHeadings = index;
+            	}
+        	    if (item.family.replace(/\s/g, '') === bodyParam) {
+        	        currentFontBody = item.family;
+        	        fontIndexBody = index;
+        	    }
             });
 
-            dropdownHeadings.find('option').eq(fontIndex).attr('selected', 'selected');
-            //dropdownBody.find('option').eq(fontIndex).attr('selected', 'selected');
+            dropdownHeadings.find('option').eq(fontIndexHeadings).attr('selected', 'selected');
+            dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
 
-            if (hash !== '') {
-                _updateFont();
+            if (headingsParam !== '') {
+                _updateFonts();
             }
-
         }
 
         function _display() {
@@ -115,24 +120,24 @@ window.googlefonts = window.googlefonts || {};
 
             for (var i = 0, l = fonts.length; i < l; i++) {
                 dropdownHeadings.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
-                //dropdownBody.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
+                dropdownBody.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
             }
 
-            _loadParam();
+            _loadParams();
 
         }
 
-        function _updateFont() {
+        function _updateFonts() {
             WebFont.load({
                 google: {
-                    families: [currentFontHeadings + ':300,400,700']
+                    families: [currentFontHeadings + ':300,400,700', currentFontBody + ':300,400,700']
                 }
             });
 
             headings.css('font-family', currentFontHeadings);
-            //body.css('font-family', currentFontBody);
+            body.css('font-family', currentFontBody);
 
-            _updateParam();
+            _updateParams();
         }
 
         function _setupAPI() {
@@ -152,12 +157,12 @@ window.googlefonts = window.googlefonts || {};
         function _bindEvents() {
             dropdownHeadings.on('change', function() {
                 currentFontHeadings = $(this).val().toString();
-                _updateFont();
+                _updateFonts();
             });
-            // dropdownBody.on('change', function() {
-            //     currentFontBody = $(this).val().toString();
-            //     _updateFont();
-            // });
+            dropdownBody.on('change', function() {
+                currentFontBody = $(this).val().toString();
+                _updateFonts();
+            });
         }
 
         function init() {
