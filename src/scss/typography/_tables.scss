@@ -1,0 +1,39 @@
+/*--------------------------------------------------------------
+>>> Tables
+----------------------------------------------------------------
+*/
+
+table {
+	border-collapse: collapse;
+	margin-bottom: $base_x2;
+	@include breakpoint($bp_m) {
+		margin-bottom: $base_x3;
+	}
+	width: 100%;
+	border-bottom: 1px solid $color_borders;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+th,
+td {
+	padding: $base;
+	text-align: left;
+
+	&:first-child {
+		padding-left: 0;
+	}
+
+	&:last-child {
+	    padding-right: 0;
+	}
+}
+
+tr {
+    border-bottom: 1px solid $color_borders;
+}
+
+td {
+	//border-top: 1px solid $color_borders;
+	//padding: 6px 10px 6px 0;
+}

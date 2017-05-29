@@ -4,10 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	<title>Typography</title>
+	<link rel="stylesheet" href="typography-controller.css">
 	<link rel="stylesheet" href="dist/css/main.css">
 	<link href='https://fonts.googleapis.com/css?family=Merriweather:400,700,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
+	<div class="typography-controller">
+		<select id="headings-fonts"></select>
+		<select id="body-fonts"></select>
+	</div>
 	<div class="container">
 		<article>
 			<h1>Header one</h1>
@@ -200,5 +205,28 @@
 		</p>
 	</footer>
 	<script src="assets/combined.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>
+		// https://stackoverflow.com/questions/13856272/google-fonts-getting-a-list-of-available-fonts-through-ajax
+		// https://vivekdragon.wordpress.com/2012/12/07/google-font-api-for-select/
+		function fontsSelect(fonts) {
+			for ( var i = 0; i < fonts.items.length; i++ ) {
+				$( '#headings-fonts, #body-fonts' ).append( $('<option></option>' ).attr( 'value', fonts.items[i].family ).text( fonts.items[i].family ) );
+			}
+		}
+
+		var script = document.createElement( 'script' );
+		script.src = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBS2UUiahoRjToJ9g2C5Je1aHcwfFKkHPQ&callback=fontsSelect';
+		document.body.appendChild( script );
+
+		$( '#headings-fonts' ).change( function() {
+			var id = $( '#headings-fonts option:selected' ).val();
+			$( 'h1, h2, h3, h4, h5, h6' ).css( 'font-family', id );
+		});
+		$( '#body-fonts' ).change( function() {
+			var id = $( '#body-fonts option:selected' ).val();
+			$( 'body' ).css( 'font-family', id );
+		});
+	</script>
 </body>
 </html>

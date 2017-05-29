@@ -1,0 +1,7 @@
+.typography-controller {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	background-color: grey;
+	max-width: 300px;
+}
