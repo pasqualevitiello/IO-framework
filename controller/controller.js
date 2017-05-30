@@ -25,7 +25,7 @@ webfontsScript.src = 'https://apis.google.com/js/client.js?onload=loadFonts';
 document.body.appendChild( webfontsScript );
 
 // Create Typography controller HTML
-var controllerTypography = '<div class="typography-controller"><select id="headings-fonts"></select><select id="body-fonts"></select></div>';
+var controllerTypography = '<div class="typography-controller"><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><select id="body-fonts"></select><select id="body-fonts-variant"></select></div>';
 controllerWrapper.innerHTML = controllerTypography;
 
 // Load Google Fonts - Crafted from:
@@ -40,10 +40,14 @@ window.googlefonts = window.googlefonts || {};
 
         var dropdownHeadings = $( '#headings-fonts' ),
         	dropdownBody = $( '#body-fonts' ),
+            dropdownHeadingsVariant = $( '#headings-fonts-variant' ),
+            dropdownBodyVariant = $( '#body-fonts-variant' ),
             headings = $( 'h1, h2, h3, h4, h5, h6' ),
             body = $( 'body' ),
             currentFontHeadings,
+            currentFontHeadingsVariants,
             currentFontBody,
+            currentFontBodyVariants,
             fonts;
 
         function _getParam() {
@@ -88,13 +92,19 @@ window.googlefonts = window.googlefonts || {};
         function _updateParams() {        	
             currentFontHeadings && _insertParam( 'headings', currentFontHeadings.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'body', currentFontBody.replace( /\s/g, '' ) );
+            // currentFontHeadingsVariants && _insertParam( 'headingsvariant', currentFontHeadingsVariants.replace( /\s/g, '' ) );
+            // currentFontBodyVariants && _insertParam( 'bodyvariant', currentFontBodyVariants.replace( /\s/g, '' ) );
         }
 
         function _loadParams() {
             var headingsParam = _getParam().headings,
+                //headingsVariantsParam = _getParam().headingsvariant,
             	bodyParam = _getParam().body,
+                //bodyVariantsParam = _getParam().bodyvariant,
                 fontIndexHeadings,
-                fontIndexBody;
+                //fontIndexHeadingsVariants,
+                fontIndexBody; // Attento al semicolon!
+                //fontIndexBodyVariants;
 
             $.each(fonts, function(index, item) {
             	if (item.family.replace(/\s/g, '') === headingsParam) {
@@ -105,26 +115,49 @@ window.googlefonts = window.googlefonts || {};
         	        currentFontBody = item.family;
         	        fontIndexBody = index;
         	    }
+                // if (item.family.replace(/\s/g, '') === headingsVariantsParam) {
+                //     currentFontHeadingsVariants = item.variants;
+                //     fontIndexHeadingsVariants = index;
+                // }
+                // if (item.family.replace(/\s/g, '') === bodyVariantsParam) {
+                //     currentFontBodyVariants = item.variants;
+                //     fontIndexBodyVariants = index;
+                // }
             });
 
             dropdownHeadings.find('option').eq(fontIndexHeadings).attr('selected', 'selected');
             dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
+            //dropdownHeadingsVariant.find('option').eq(fontIndexHeadingsVariants).attr('selected', 'selected');
+            //dropdownBodyVariant.find('option').eq(fontIndexBodyVariants).attr('selected', 'selected');
 
             if (headingsParam !== '') {
                 _updateFonts();
             }
         }
 
-        function _display() {
+        function _displayFonts() {
             $('body').addClass('has-font-loaded');
 
             for (var i = 0, l = fonts.length; i < l; i++) {
-                dropdownHeadings.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
-                dropdownBody.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
+                dropdownHeadings.append('<option value="' + fonts[i].family + '" data-variants=\'' + JSON.stringify( fonts[i].variants ) + '\'>' + fonts[i].family + '</option>');
+                dropdownBody.append('<option value="' + fonts[i].family + '" data-variants=\'' + JSON.stringify( fonts[i].variants ) + '\'>' + fonts[i].family + '</option>');
+                //$('body').prepend('<div style="text-align:right">' + JSON.stringify(fonts[i]) + '</div><br>');
             }
 
             _loadParams();
+        }
 
+        function _displayVariants() {
+            dropdownHeadingsVariant.find( 'option' ).remove();
+            dropdownBodyVariant.find( 'option' ).remove();
+            var currentFontHeadingsVariants = dropdownHeadings.find( 'option[value="' + currentFontHeadings + '"]' ).data( 'variants' ),
+                currentFontBodyVariants = dropdownBody.find( 'option[value="' + currentFontBody + '"]' ).data( 'variants' );
+            for (var i = 0, l = currentFontHeadingsVariants.length; i < l; i++) {
+                dropdownHeadingsVariant.append('<option value="' + currentFontHeadingsVariants[i] + '">' + currentFontHeadingsVariants[i] + '</option>');
+            }
+            for (var i = 0, l = currentFontBodyVariants.length; i < l; i++) {
+                dropdownBodyVariant.append('<option value="' + currentFontBodyVariants[i] + '">' + currentFontBodyVariants[i] + '</option>');
+            }
         }
 
         function _updateFonts() {
@@ -148,7 +181,8 @@ window.googlefonts = window.googlefonts || {};
                 var request = gapi.client.webfonts.webfonts.list();
                 request.execute(function(resp) {
                     fonts = resp.items;
-                    _display();
+                    _displayFonts();
+                    _displayVariants();
                 });
 
             });
@@ -159,10 +193,12 @@ window.googlefonts = window.googlefonts || {};
             dropdownHeadings.on(' change', function() {
                 currentFontHeadings = $(this).val().toString();
                 _updateFonts();
+                _displayVariants();
             });
             dropdownBody.on( 'change', function() {
                 currentFontBody = $(this).val().toString();
                 _updateFonts();
+                _displayVariants();
             });
         }
 
@@ -197,10 +233,11 @@ window.googlefonts = window.googlefonts || {};
                 }
                 currentFontBody = $(this).val().toString();
                 _updateFonts();
+                _displayVariants();
                 e.preventDefault();
             });
         }
-        
+
 
         function init() {
             _setupAPI();
