@@ -138,7 +138,7 @@ window.googlefonts = window.googlefonts || {};
             dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
 
             if (headingsParam !== '') {
-                _updateFonts();
+                _updateFonts(); // Da rivedere, non capisco bene a che serve
             }
         }
 
