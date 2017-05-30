@@ -173,8 +173,6 @@ window.googlefonts = window.googlefonts || {};
             } else {
                 dropdown.find( 'option:first-child' ).prop( 'selected', true );
             }
-
-            _syncSelects();
         }
 
         function _updateFonts() {
@@ -207,6 +205,7 @@ window.googlefonts = window.googlefonts || {};
                     _displayFonts();
                     _displayVariants( dropdownHeadingsVariants, currentFontHeadings, dropdownHeadings );
                     _displayVariants( dropdownBodyVariants, currentFontBody, dropdownBody );
+                    _syncSelects();
                 });
 
             });
@@ -219,6 +218,7 @@ window.googlefonts = window.googlefonts || {};
                 //currentFontHeadingsVariants = $(this).val().toString();
                 _updateFonts();
                 _displayVariants( dropdownHeadingsVariants, currentFontHeadings, dropdownHeadings );
+                _syncSelects();
             });
             dropdownHeadingsVariants.on(' change', function() {
                 currentFontHeadingsVariants = $(this).val().toString();
@@ -229,6 +229,7 @@ window.googlefonts = window.googlefonts || {};
                 //currentFontBodyVariants = $(this).val().toString();
                 _updateFonts();
                 _displayVariants( dropdownBodyVariants, currentFontBody, dropdownBody );
+                _syncSelects();
             });
             dropdownBodyVariants.on(' change', function() {
                 currentFontBodyVariants = $(this).val().toString();
@@ -253,6 +254,7 @@ window.googlefonts = window.googlefonts || {};
                 //currentFontHeadingsVariants = $(this).val().toString();
                 _updateFonts();
                 _displayVariants( dropdownHeadingsVariants, currentFontHeadings, dropdownHeadings );
+                _syncSelects();
                 e.preventDefault();
             });
             dropdownHeadingsVariants.keydown( function(e) {
@@ -287,6 +289,7 @@ window.googlefonts = window.googlefonts || {};
                 //currentFontBodyVariants = $(this).val().toString();
                 _updateFonts();
                 _displayVariants( dropdownBodyVariants, currentFontBody, dropdownBody );
+                _syncSelects();
                 e.preventDefault();
             });
             dropdownBodyVariants.keydown( function(e) {
