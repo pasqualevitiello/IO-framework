@@ -170,11 +170,11 @@ window.googlefonts = window.googlefonts || {};
             dropdownHeadings.keydown( function(e) {
                 switch( e.which ) {
                     case 38: // up
-                    $(this).find(":selected").prev().prop('selected',true);
+                    $(this).find( ':selected' ).prev().prop( 'selected', true );
                     break;
 
                     case 40: // down
-                    $(this).find(":selected").next().prop('selected',true);
+                    $(this).find( ':selected ' ).next().prop( 'selected', true );
                     break;
 
                     default: return; // exit this handler for other keys
@@ -186,11 +186,11 @@ window.googlefonts = window.googlefonts || {};
             dropdownBody.keydown( function(e) {
                 switch( e.which ) {
                     case 38: // up
-                    $(this).find(":selected").prev().prop('selected',true);
+                    $(this).find( ':selected' ).prev().prop( 'selected', true );
                     break;
 
                     case 40: // down
-                    $(this).find(":selected").next().prop('selected',true);
+                    $(this).find( ':selected ' ).next().prop( 'selected', true );
                     break;
 
                     default: return; // exit this handler for other keys
@@ -200,6 +200,7 @@ window.googlefonts = window.googlefonts || {};
                 e.preventDefault();
             });
         }
+        
 
         function init() {
             _setupAPI();
