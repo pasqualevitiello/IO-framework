@@ -116,7 +116,7 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _display() {
-            $('body').addClass('is-loaded');
+            $('body').addClass('has-font-loaded');
 
             for (var i = 0, l = fonts.length; i < l; i++) {
                 dropdownHeadings.append('<option value="' + fonts[i].family + '">' + fonts[i].family + '</option>');
@@ -131,11 +131,12 @@ window.googlefonts = window.googlefonts || {};
             WebFont.load({
                 google: {
                     families: [currentFontHeadings + ':300,400,700', currentFontBody + ':300,400,700']
+                },
+                active: function() {
+                    headings.css('font-family', currentFontHeadings);
+                    body.css('font-family', currentFontBody);
                 }
             });
-
-            headings.css('font-family', currentFontHeadings);
-            body.css('font-family', currentFontBody);
 
             _updateParams();
         }
@@ -155,19 +156,55 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _bindEvents() {
-            dropdownHeadings.on('change', function() {
+            dropdownHeadings.on(' change', function() {
                 currentFontHeadings = $(this).val().toString();
                 _updateFonts();
             });
-            dropdownBody.on('change', function() {
+            dropdownBody.on( 'change', function() {
                 currentFontBody = $(this).val().toString();
                 _updateFonts();
+            });
+        }
+
+        function _keyboardNavigation() {
+            dropdownHeadings.keydown( function(e) {
+                switch( e.which ) {
+                    case 38: // up
+                    $(this).find(":selected").prev().prop('selected',true);
+                    break;
+
+                    case 40: // down
+                    $(this).find(":selected").next().prop('selected',true);
+                    break;
+
+                    default: return; // exit this handler for other keys
+                }
+                currentFontHeadings = $(this).val().toString();
+                _updateFonts();
+                e.preventDefault();
+            });
+            dropdownBody.keydown( function(e) {
+                switch( e.which ) {
+                    case 38: // up
+                    $(this).find(":selected").prev().prop('selected',true);
+                    break;
+
+                    case 40: // down
+                    $(this).find(":selected").next().prop('selected',true);
+                    break;
+
+                    default: return; // exit this handler for other keys
+                }
+                currentFontBody = $(this).val().toString();
+                _updateFonts();
+                e.preventDefault();
             });
         }
 
         function init() {
             _setupAPI();
             _bindEvents();
+            _keyboardNavigation();
         }
 
         return {
