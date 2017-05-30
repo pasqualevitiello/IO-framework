@@ -123,7 +123,7 @@ window.googlefonts = window.googlefonts || {};
             });
 
             dropdownHeadings.find('option').eq(fontIndexHeadings).attr('selected', 'selected');
-            dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
+            //dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
             dropdownHeadingsVariants.find('option').eq(fontIndexHeadingsVariants).attr('selected', 'selected');
             console.log(dropdownHeadingsVariants.find('option').eq(fontIndexHeadingsVariants).val());
 
@@ -143,7 +143,7 @@ window.googlefonts = window.googlefonts || {};
                 //$('body').prepend('<div style="text-align:right">' + JSON.stringify(fonts[i]) + '</div><br>');
             }
 
-            _loadParams();
+            //_loadParams();
         }
 
         function _displayVariants( dropdown, currentFont, parentFont ) {
@@ -163,6 +163,8 @@ window.googlefonts = window.googlefonts || {};
             } else if( regularVariant ) { // Get regular variant
                 regularVariant.prop( 'selected', true );
             }
+
+            _loadParams();
         }
 
         function _updateFonts() {
