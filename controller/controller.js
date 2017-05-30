@@ -40,7 +40,7 @@ window.googlefonts = window.googlefonts || {};
 
         var dropdownHeadings = $( '#headings-fonts' ),
         	dropdownBody = $( '#body-fonts' ),
-            dropdownHeadingsVariant = $( '#headings-fonts-variant' ),
+            dropdownHeadingsVariants = $( '#headings-fonts-variant' ),
             dropdownBodyVariant = $( '#body-fonts-variant' ),
             headings = $( 'h1, h2, h3, h4, h5, h6' ),
             body = $( 'body' ),
@@ -92,17 +92,17 @@ window.googlefonts = window.googlefonts || {};
         function _updateParams() {        	
             currentFontHeadings && _insertParam( 'headings', currentFontHeadings.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'body', currentFontBody.replace( /\s/g, '' ) );
-            // currentFontHeadingsVariants && _insertParam( 'headingsvariant', currentFontHeadingsVariants.replace( /\s/g, '' ) );
+            currentFontHeadingsVariants && _insertParam( 'headingsvariant', currentFontHeadingsVariants.replace( /\s/g, '' ) );
             // currentFontBodyVariants && _insertParam( 'bodyvariant', currentFontBodyVariants.replace( /\s/g, '' ) );
         }
 
         function _loadParams() {
             var headingsParam = _getParam().headings,
-                //headingsVariantsParam = _getParam().headingsvariant,
+                headingsVariantsParam = _getParam().headingsvariant,
             	bodyParam = _getParam().body,
                 //bodyVariantsParam = _getParam().bodyvariant,
                 fontIndexHeadings,
-                //fontIndexHeadingsVariants,
+                fontIndexHeadingsVariants,
                 fontIndexBody; // Attento al semicolon!
                 //fontIndexBodyVariants;
 
@@ -110,24 +110,23 @@ window.googlefonts = window.googlefonts || {};
             	if (item.family.replace(/\s/g, '') === headingsParam) {
             	    currentFontHeadings = item.family;
             	    fontIndexHeadings = index;
+                    // Font Variant param
+                    if( headingsVariantsParam && $.inArray( headingsVariantsParam, item.variants ) != -1 ) {
+                        currentFontHeadingsVariants = headingsVariantsParam;
+                        fontIndexHeadingsVariants = item.variants.indexOf(headingsVariantsParam);
+                    }
             	}
         	    if (item.family.replace(/\s/g, '') === bodyParam) {
         	        currentFontBody = item.family;
         	        fontIndexBody = index;
         	    }
-                // if (item.family.replace(/\s/g, '') === headingsVariantsParam) {
-                //     currentFontHeadingsVariants = item.variants;
-                //     fontIndexHeadingsVariants = index;
-                // }
-                // if (item.family.replace(/\s/g, '') === bodyVariantsParam) {
-                //     currentFontBodyVariants = item.variants;
-                //     fontIndexBodyVariants = index;
-                // }
             });
 
             dropdownHeadings.find('option').eq(fontIndexHeadings).attr('selected', 'selected');
             dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
-            //dropdownHeadingsVariant.find('option').eq(fontIndexHeadingsVariants).attr('selected', 'selected');
+            dropdownHeadingsVariants.find('option').eq(fontIndexHeadingsVariants).attr('selected', 'selected');
+            console.log(dropdownHeadingsVariants.find('option').eq(fontIndexHeadingsVariants).val());
+
             //dropdownBodyVariant.find('option').eq(fontIndexBodyVariants).attr('selected', 'selected');
 
             if (headingsParam !== '') {
@@ -147,18 +146,6 @@ window.googlefonts = window.googlefonts || {};
             _loadParams();
         }
 
-        // function _displayVariants() {
-        //     dropdownHeadingsVariant.find( 'option' ).remove();
-        //     dropdownBodyVariant.find( 'option' ).remove();
-        //     var currentFontHeadingsVariants = dropdownHeadings.find( 'option[value="' + currentFontHeadings + '"]' ).data( 'variants' ),
-        //         currentFontBodyVariants = dropdownBody.find( 'option[value="' + currentFontBody + '"]' ).data( 'variants' );
-        //     for (var i = 0, l = currentFontHeadingsVariants.length; i < l; i++) {
-        //         dropdownHeadingsVariant.append('<option value="' + currentFontHeadingsVariants[i] + '">' + currentFontHeadingsVariants[i] + '</option>');
-        //     }
-        //     for (var i = 0, l = currentFontBodyVariants.length; i < l; i++) {
-        //         dropdownBodyVariant.append('<option value="' + currentFontBodyVariants[i] + '">' + currentFontBodyVariants[i] + '</option>');
-        //     }
-        // }
         function _displayVariants( dropdown, currentFont, parentFont ) {
 
             // Store latest font variant selected
@@ -181,7 +168,7 @@ window.googlefonts = window.googlefonts || {};
         function _updateFonts() {
             WebFont.load({
                 google: {
-                    families: [currentFontHeadings + ':300,400,700', currentFontBody + ':300,400,700']
+                    families: [currentFontHeadings + ':' + currentFontHeadingsVariants, currentFontBody + ':300,400,700']
                 },
                 active: function() {
                     headings.css('font-family', currentFontHeadings);
@@ -200,7 +187,7 @@ window.googlefonts = window.googlefonts || {};
                 request.execute(function(resp) {
                     fonts = resp.items;
                     _displayFonts();
-                    _displayVariants( dropdownHeadingsVariant, currentFontHeadings, dropdownHeadings );
+                    _displayVariants( dropdownHeadingsVariants, currentFontHeadings, dropdownHeadings );
                     _displayVariants( dropdownBodyVariant, currentFontBody, dropdownBody );
                 });
 
@@ -212,7 +199,7 @@ window.googlefonts = window.googlefonts || {};
             dropdownHeadings.on(' change', function() {
                 currentFontHeadings = $(this).val().toString();
                 _updateFonts();
-                _displayVariants( dropdownHeadingsVariant, currentFontHeadings, dropdownHeadings );
+                _displayVariants( dropdownHeadingsVariants, currentFontHeadings, dropdownHeadings );
             });
             dropdownBody.on( 'change', function() {
                 currentFontBody = $(this).val().toString();
@@ -236,7 +223,7 @@ window.googlefonts = window.googlefonts || {};
                 }
                 currentFontHeadings = $(this).val().toString();
                 _updateFonts();
-                _displayVariants( dropdownHeadingsVariant, currentFontHeadings, dropdownHeadings );
+                _displayVariants( dropdownHeadingsVariants, currentFontHeadings, dropdownHeadings );
                 e.preventDefault();
             });
             dropdownBody.keydown( function(e) {
