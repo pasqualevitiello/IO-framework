@@ -228,7 +228,7 @@ window.googlefonts = window.googlefonts || {};
         function _updateFonts() {
 
             if( currentFontHeadings == null && currentFontBody == null ) {
-                //return; // Stop executing code below
+                return; // Stop executing code below
             }
 
             // Init array
