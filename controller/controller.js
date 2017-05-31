@@ -25,7 +25,7 @@ webfontsScript.src = 'https://apis.google.com/js/client.js?onload=loadFonts';
 document.body.appendChild( webfontsScript );
 
 // Create Typography controller HTML
-var controllerTypography = '<div class="typography-controller"><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><select id="body-fonts"></select><select id="body-fonts-variant"></select></div>';
+var controllerTypography = '<div class="typography-controller"><h4>Headings typography</h4><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><h4>Body typography</h4><select id="body-fonts"></select><select id="body-fonts-variant"></select></div>';
 controllerWrapper.innerHTML = controllerTypography;
 
 // Load Google Fonts - Crafted from:
@@ -276,6 +276,27 @@ window.googlefonts = window.googlefonts || {};
                 $.inArray(el, uniqueFamilies) && uniqueFamilies.push(el);
             });
 
+            // Convert headings variants to font-weight and font style
+            var currentFontHeadingsWeight, currentFontHeadingsStyle;
+            if( currentFontHeadingsVariants.indexOf( 'italic' ) !== -1 ) {
+                currentFontHeadingsWeight = currentFontHeadingsVariants.length > 6 ? currentFontHeadingsVariants.replace( 'italic', '' ) : 'normal';
+                currentFontHeadingsStyle = 'italic';
+            } else if( currentFontHeadingsVariants.indexOf( 'regular' ) !== -1 ) {
+                currentFontHeadingsWeight = 'normal';
+                currentFontHeadingsStyle = 'normal';
+            } else {
+                currentFontHeadingsWeight = currentFontHeadingsVariants;
+                currentFontHeadingsStyle = 'normal';
+            }
+
+            // Convert body variants to font-weight and font style
+            var currentFontBodyWeight;
+            if( currentFontBodyVariants.indexOf( 'regular' ) !== -1 ) {
+                currentFontBodyWeight = 'normal';
+            } else {
+                currentFontBodyWeight = currentFontBodyVariants;
+            }
+
             // Load fonts
             WebFont.load({
                 google: {
@@ -284,11 +305,12 @@ window.googlefonts = window.googlefonts || {};
                 active: function() {
                     headings.css({
                         'font-family': currentFontHeadings,
-                        'font-weight': currentFontHeadingsVariants,
+                        'font-weight': currentFontHeadingsWeight,
+                        'font-style': currentFontHeadingsStyle
                     });
                     body.css({
                         'font-family': currentFontBody,
-                        'font-weight': currentFontBodyVariants,
+                        'font-weight': currentFontBodyWeight
                     });
                 }
             });
