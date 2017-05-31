@@ -308,7 +308,7 @@ window.googlefonts = window.googlefonts || {};
             });
             dropdownBodyVariants.on(' change', function() {
                 currentFontBodyVariants = $(this).val().toString();
-                _updateFonts();// doppia call che determina multiple caricamento fonts
+                _updateFonts();
             });
         }
 
