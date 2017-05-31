@@ -194,7 +194,8 @@ ol, ul {
 }
 
 // Forse non necessario, va bene il bolder del normalize: https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight?v=example
-// b,
-// strong {
-//   font-weight: bold; // Sostituisce il bolder del normalize. Bisogna anche definire l'italic?
-// }
+// E' necessario. Es: usando Open Sans Condensed a 300, <strong> è grassetto (ovvero 700) solo se si usa bold, non con bolder!
+b,
+strong {
+  font-weight: bold; // Sostituisce il bolder del normalize. Bisogna anche definire l'italic?
+}

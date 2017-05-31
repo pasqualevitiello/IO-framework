@@ -36,6 +36,22 @@ window.googlefonts = window.googlefonts || {};
 
     "use strict";
 
+    // Utility for removing multiple valuse from an array of values
+    // Crafted from: http://www.htmlgoodies.com/beyond/javascript/removing-elements-from-an-array-in-javascript.html
+    if ( !Array.prototype.remove ) {
+        Array.prototype.remove = function(vals) {
+            var i, removedItems = [];
+            if ( !Array.isArray(vals) ) vals = [vals];
+            for (var j = 0; j < vals.length; j++) {
+                for(i = this.length; i--;) {
+                    if ( this[i] === vals[j] ) removedItems.push( this.splice(i, 1) );
+                }
+            }
+            return removedItems;
+        };
+    }  
+
+    // Google Fonts handling
     googlefonts.LoadFonts = (function() {
 
         var dropdownHeadings = $( '#headings-fonts' ),
@@ -59,7 +75,7 @@ window.googlefonts = window.googlefonts || {};
             bodyParam,
             bodyVariantsParam,
             fonts,
-            families;
+            families;    
 
         function _getParam() {
             var paramString = window.location.search.substr( 1 );
@@ -206,6 +222,24 @@ window.googlefonts = window.googlefonts || {};
 
                 var bodyVariants = _parseVariants( currentFontBody, dropdownBody );
 
+                // Remove unwanted variants
+                var unwantedBodyVariants = [
+                    '100italic',
+                    '200italic',
+                    '300italic',
+                    'italic',
+                    '500italic',
+                    '600italic',
+                    '700italic',
+                    '800italic',
+                    '900italic',
+                    '700',
+                    '800',
+                    '900'
+                    ];                
+                bodyVariants.remove( unwantedBodyVariants );
+                console.log(bodyVariants);
+
                 // Populate body variants selects
                 for (var i = 0, l = bodyVariants.length; i < l; i++) {
                     dropdownBodyVariants.append('<option value="' + bodyVariants[i] + '">' + bodyVariants[i] + '</option>')
@@ -243,19 +277,24 @@ window.googlefonts = window.googlefonts || {};
             if( currentFontHeadings ) {
                 currentFontHeadingsAllVariants = _parseVariants( currentFontHeadings, dropdownHeadings );
                 var headingsArray = currentFontHeadings + ':' + currentFontHeadingsAllVariants;
-                // Check it isn't in the array and push
-                $.inArray( headingsArray, families ) == -1 && families.push( headingsArray );
+                families.push( headingsArray );
             }
             if( currentFontBody ) {
                 currentFontBodyAllVariants = _parseVariants( currentFontBody, dropdownBody );
                 var bodyArray = currentFontBody + ':' + currentFontBodyAllVariants;
-                // Check it isn't in the array and push
-                $.inArray( bodyArray, families ) == -1 && families.push( bodyArray );
+                families.push( bodyArray );
             }
 
+            // Remove duplicate items in array
+            var uniqueFamilies = [];
+            $.each( families, function(i, el) {
+                $.inArray(el, uniqueFamilies) && uniqueFamilies.push(el);
+            });
+
+            // Load fonts
             WebFont.load({
                 google: {
-                    families: families
+                    families: uniqueFamilies
                 },
                 active: function() {
                     headings.css({
