@@ -280,9 +280,9 @@ window.googlefonts = window.googlefonts || {};
                 request.execute(function(resp) {
                     fonts = resp.items;
                     _displayFonts();
-                    _updateFonts();
                     _displayVariants();
                     _syncSelects();
+                    _updateFonts();
                 });
 
             });
@@ -292,19 +292,19 @@ window.googlefonts = window.googlefonts || {};
         function _bindEvents() {
             dropdownHeadings.on(' change', function() {
                 currentFontHeadings = $(this).val().toString();
-                _updateFonts();// doppia call che determina multiple caricamento fonts
                 _displayVariants();
                 _syncSelects();
+                _updateFonts();
             });
             dropdownHeadingsVariants.on(' change', function() {
                 currentFontHeadingsVariants = $(this).val().toString();
-                _updateFonts();// doppia call che determina multiple caricamento fonts
+                _updateFonts();
             });
             dropdownBody.on( 'change', function() {
                 currentFontBody = $(this).val().toString();
-                _updateFonts();
                 _displayVariants();
-                _syncSelects();// doppia call che determina multiple caricamento fonts
+                _syncSelects();
+                _updateFonts();
             });
             dropdownBodyVariants.on(' change', function() {
                 currentFontBodyVariants = $(this).val().toString();
@@ -326,9 +326,9 @@ window.googlefonts = window.googlefonts || {};
                     default: return; // exit this handler for other keys
                 }
                 currentFontHeadings = $(this).val().toString();
-                _updateFonts();
                 _displayVariants();
                 _syncSelects();
+                _updateFonts();
                 e.preventDefault();
             });
             dropdownHeadingsVariants.keydown( function(e) {
@@ -360,9 +360,9 @@ window.googlefonts = window.googlefonts || {};
                     default: return; // exit this handler for other keys
                 }
                 currentFontBody = $(this).val().toString();
-                _updateFonts();
                 _displayVariants();
                 _syncSelects();
+                _updateFonts();
                 e.preventDefault();
             });
             dropdownBodyVariants.keydown( function(e) {
