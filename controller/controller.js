@@ -138,10 +138,6 @@ window.googlefonts = window.googlefonts || {};
         function _syncSelects() {
             dropdownHeadings.find('option').eq(fontIndexHeadings).attr('selected', 'selected');
             dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
-
-            if (headingsParam !== '') {
-                _updateFonts(); // Da rivedere, non capisco bene a che serve
-            }
         }
 
         function _displayFonts() {
@@ -284,6 +280,7 @@ window.googlefonts = window.googlefonts || {};
                 request.execute(function(resp) {
                     fonts = resp.items;
                     _displayFonts();
+                    _updateFonts();
                     _displayVariants();
                     _syncSelects();
                 });
