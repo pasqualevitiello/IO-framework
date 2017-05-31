@@ -53,9 +53,11 @@ window.googlefonts = window.googlefonts || {};
             fontIndexHeadings,
             fontIndexHeadingsVariants,
             headingsParam,
+            headingsVariantsParam,
             fontIndexBody,
             fontIndexBodyVariants,
             bodyParam,
+            bodyVariantsParam,
             fonts,
             families;
 
@@ -99,17 +101,17 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _updateParams() {        	
-            currentFontHeadings && _insertParam( 'headings', currentFontHeadings.replace( /\s/g, '' ) );
-            currentFontBody && _insertParam( 'body', currentFontBody.replace( /\s/g, '' ) );
-            currentFontHeadingsVariants && _insertParam( 'headingsvariant', currentFontHeadingsVariants.replace( /\s/g, '' ) );
-            currentFontBodyVariants && _insertParam( 'bodyvariant', currentFontBodyVariants.replace( /\s/g, '' ) );
+            currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ) );
+            currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) );
+            currentFontHeadingsVariants && _insertParam( 'hv', currentFontHeadingsVariants.replace( /\s/g, '' ) );
+            currentFontBodyVariants && _insertParam( 'bv', currentFontBodyVariants.replace( /\s/g, '' ) );
         }
 
         function _loadParams() {
-            var headingsParam = _getParam().headings,
-                headingsVariantsParam = _getParam().headingsvariant,
-            	bodyParam = _getParam().body,
-                bodyVariantsParam = _getParam().bodyvariant;
+            headingsParam = _getParam().h,
+            headingsVariantsParam = _getParam().hv,
+        	bodyParam = _getParam().b,
+            bodyVariantsParam = _getParam().bv;
 
             $.each(fonts, function(index, item) {
             	if (item.family.replace(/\s/g, '') === headingsParam) {
@@ -184,7 +186,10 @@ window.googlefonts = window.googlefonts || {};
 
                 // Headings: Define options to be selected and update params variables
                 var regularHeadingsVariant = dropdownHeadingsVariants.find( 'option[value="regular"]' );
-                if( prevHeadingsVariant && $.inArray( prevHeadingsVariant, currentFontHeadingsAllVariants ) != -1 ) { // Get latest font variant selected
+                if( headingsVariantsParam && $.inArray( headingsVariantsParam, headingsVariants ) != -1 ) {
+                    dropdownHeadingsVariants.find( 'option[value="' + headingsVariantsParam + '"]' ).prop( 'selected', true );
+                    currentFontHeadingsVariants = headingsVariantsParam;
+                } else if( prevHeadingsVariant && $.inArray( prevHeadingsVariant, currentFontHeadingsAllVariants ) != -1 ) { // Get latest font variant selected
                     dropdownHeadingsVariants.find( 'option[value="' + prevHeadingsVariant + '"]' ).prop( 'selected', true );
                     currentFontHeadingsVariants = prevHeadingsVariant;
                 } else if( regularHeadingsVariant.length ) { // Get regular variant
@@ -212,7 +217,10 @@ window.googlefonts = window.googlefonts || {};
 
                 // Body: Define options to be selected and update params variables
                 var regularBodyVariant = dropdownBodyVariants.find( 'option[value="regular"]' );
-                if( prevBodyVariant && $.inArray( prevBodyVariant, currentFontBodyAllVariants ) != -1 ) { // Get latest font variant selected
+                if( bodyVariantsParam && $.inArray( bodyVariantsParam, bodyVariants ) != -1 ) {
+                    dropdownBodyVariants.find( 'option[value="' + bodyVariantsParam + '"]' ).prop( 'selected', true );
+                    currentFontBodyVariants = bodyVariantsParam;
+                } else if( prevBodyVariant && $.inArray( prevBodyVariant, currentFontBodyAllVariants ) != -1 ) { // Get latest font variant selected
                     dropdownBodyVariants.find( 'option[value="' + prevBodyVariant + '"]' ).prop( 'selected', true );
                     currentFontBodyVariants = prevBodyVariant;
                 } else if( regularBodyVariant.length ) { // Get regular variant
