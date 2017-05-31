@@ -34,22 +34,7 @@ window.googlefonts = window.googlefonts || {};
 
 (function(window, document, $) {
 
-    "use strict";
-
-    // Utility for removing multiple valuse from an array of values
-    // Crafted from: http://www.htmlgoodies.com/beyond/javascript/removing-elements-from-an-array-in-javascript.html
-    if ( !Array.prototype.remove ) {
-        Array.prototype.remove = function(vals) {
-            var i, removedItems = [];
-            if ( !Array.isArray(vals) ) vals = [vals];
-            for (var j = 0; j < vals.length; j++) {
-                for(i = this.length; i--;) {
-                    if ( this[i] === vals[j] ) removedItems.push( this.splice(i, 1) );
-                }
-            }
-            return removedItems;
-        };
-    }  
+    "use strict"; 
 
     // Google Fonts handling
     googlefonts.LoadFonts = (function() {
@@ -222,7 +207,12 @@ window.googlefonts = window.googlefonts || {};
 
                 var bodyVariants = _parseVariants( currentFontBody, dropdownBody );
 
-                // Remove unwanted variants
+                // Populate body variants selects
+                for (var i = 0, l = bodyVariants.length; i < l; i++) {
+                    dropdownBodyVariants.append('<option value="' + bodyVariants[i] + '">' + bodyVariants[i] + '</option>')
+                }
+
+                // Remove unwanted body variant
                 var unwantedBodyVariants = [
                     '100italic',
                     '200italic',
@@ -236,13 +226,9 @@ window.googlefonts = window.googlefonts || {};
                     '700',
                     '800',
                     '900'
-                    ];                
-                bodyVariants.remove( unwantedBodyVariants );
-                console.log(bodyVariants);
-
-                // Populate body variants selects
-                for (var i = 0, l = bodyVariants.length; i < l; i++) {
-                    dropdownBodyVariants.append('<option value="' + bodyVariants[i] + '">' + bodyVariants[i] + '</option>')
+                ];
+                for(var i = 0, l = unwantedBodyVariants.length; i < l; i++) {
+                    dropdownBodyVariants.find( 'option[value=' + unwantedBodyVariants[i] + ']' ).remove();
                 }
 
                 // Body: Define options to be selected and update params variables
@@ -271,7 +257,6 @@ window.googlefonts = window.googlefonts || {};
 
             // Init array
             families = [];
-
 
             // Get all variants of a font
             if( currentFontHeadings ) {
@@ -359,7 +344,7 @@ window.googlefonts = window.googlefonts || {};
                     break;
 
                     case 40: // down
-                    $(this).find( ':selected ' ).next().prop( 'selected', true );
+                    $(this).find( ':selected' ).next().prop( 'selected', true );
                     break;
 
                     default: return; // exit this handler for other keys
@@ -377,7 +362,7 @@ window.googlefonts = window.googlefonts || {};
                     break;
 
                     case 40: // down
-                    $(this).find( ':selected ' ).next().prop( 'selected', true );
+                    $(this).find( ':selected' ).next().prop( 'selected', true );
                     break;
 
                     default: return; // exit this handler for other keys
@@ -393,7 +378,7 @@ window.googlefonts = window.googlefonts || {};
                     break;
 
                     case 40: // down
-                    $(this).find( ':selected ' ).next().prop( 'selected', true );
+                    $(this).find( ':selected' ).next().prop( 'selected', true );
                     break;
 
                     default: return; // exit this handler for other keys
@@ -411,7 +396,7 @@ window.googlefonts = window.googlefonts || {};
                     break;
 
                     case 40: // down
-                    $(this).find( ':selected ' ).next().prop( 'selected', true );
+                    $(this).find( ':selected' ).next().prop( 'selected', true );
                     break;
 
                     default: return; // exit this handler for other keys
