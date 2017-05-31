@@ -164,63 +164,89 @@ window.googlefonts = window.googlefonts || {};
 
         function _displayVariants() {
 
-            // Store latest font variant selected
-            var prevHeadingsVariant = dropdownHeadingsVariants.find( ':selected' ).val(),
-                prevBodyVariant = dropdownBodyVariants.find( ':selected' ).val();
-
-            // Clean previous options
-            dropdownHeadingsVariants.find( 'option' ).remove();
-            dropdownBodyVariants.find( 'option' ).remove();
-
-            var headingsVariants = _parseVariants( currentFontHeadings, dropdownHeadings ),
-                bodyVariants = _parseVariants( currentFontBody, dropdownBody );
-
-            // Populate headings variants selects
-            for (var i = 0, l = headingsVariants.length; i < l; i++) {
-                dropdownHeadingsVariants.append('<option value="' + headingsVariants[i] + '">' + headingsVariants[i] + '</option>')
-            }
-            // Populate body variants selects
-            for (var i = 0, l = bodyVariants.length; i < l; i++) {
-                dropdownBodyVariants.append('<option value="' + bodyVariants[i] + '">' + bodyVariants[i] + '</option>')
+            if( currentFontHeadings == null && currentFontBody == null ) {
+                return; // Stop executing code below
             }
 
-            // Headings: Define options to be selected and update params variables
-            var regularHeadingsVariant = dropdownHeadingsVariants.find( 'option[value="regular"]' );
-            if( prevHeadingsVariant && $.inArray( prevHeadingsVariant, currentFontHeadingsAllVariants ) != -1 ) { // Get latest font variant selected
-                dropdownHeadingsVariants.find( 'option[value="' + prevHeadingsVariant + '"]' ).prop( 'selected', true );
-                currentFontHeadingsVariants = prevHeadingsVariant;
-            } else if( regularHeadingsVariant.length ) { // Get regular variant
-                dropdownHeadingsVariants.find( 'option[value="regular"]' ).prop( 'selected', true );
-                currentFontHeadingsVariants = 'regular';
-            } else {
-                dropdownHeadingsVariants.find( 'option:first-of-type' ).prop( 'selected', true );
-                currentFontHeadingsVariants = dropdownHeadingsVariants.find( 'option:first-of-type' ).val();
+            if( currentFontHeadings ) {
+                // Store latest font variant selected
+                var prevHeadingsVariant = dropdownHeadingsVariants.find( ':selected' ).val();
+
+                // Clean previous options
+                dropdownHeadingsVariants.find( 'option' ).remove();
+
+                var headingsVariants = _parseVariants( currentFontHeadings, dropdownHeadings );
+
+                // Populate headings variants selects
+                for (var i = 0, l = headingsVariants.length; i < l; i++) {
+                    dropdownHeadingsVariants.append('<option value="' + headingsVariants[i] + '">' + headingsVariants[i] + '</option>')
+                }
+
+                // Headings: Define options to be selected and update params variables
+                var regularHeadingsVariant = dropdownHeadingsVariants.find( 'option[value="regular"]' );
+                if( prevHeadingsVariant && $.inArray( prevHeadingsVariant, currentFontHeadingsAllVariants ) != -1 ) { // Get latest font variant selected
+                    dropdownHeadingsVariants.find( 'option[value="' + prevHeadingsVariant + '"]' ).prop( 'selected', true );
+                    currentFontHeadingsVariants = prevHeadingsVariant;
+                } else if( regularHeadingsVariant.length ) { // Get regular variant
+                    dropdownHeadingsVariants.find( 'option[value="regular"]' ).prop( 'selected', true );
+                    currentFontHeadingsVariants = 'regular';
+                } else {
+                    dropdownHeadingsVariants.find( 'option:first-of-type' ).prop( 'selected', true );
+                    currentFontHeadingsVariants = dropdownHeadingsVariants.find( 'option:first-of-type' ).val();
+                }
             }
 
-            // Body: Define options to be selected and update params variables
-            var regularBodyVariant = dropdownBodyVariants.find( 'option[value="regular"]' );
-            if( prevBodyVariant && $.inArray( prevBodyVariant, currentFontBodyAllVariants ) != -1 ) { // Get latest font variant selected
-                dropdownBodyVariants.find( 'option[value="' + prevBodyVariant + '"]' ).prop( 'selected', true );
-                currentFontBodyVariants = prevBodyVariant;
-            } else if( regularBodyVariant.length ) { // Get regular variant
-                dropdownBodyVariants.find( 'option[value="regular"]' ).prop( 'selected', true );
-                currentFontBodyVariants = 'regular';
-            } else {
-                dropdownBodyVariants.find( 'option:first-of-type' ).prop( 'selected', true );
-                currentFontBodyVariants = dropdownBodyVariants.find( 'option:first-of-type' ).val();
+            if( currentFontBody ) {
+                // Store latest font variant selected
+                var prevBodyVariant = dropdownBodyVariants.find( ':selected' ).val();
+
+                // Clean previous options
+                dropdownBodyVariants.find( 'option' ).remove();
+
+                var bodyVariants = _parseVariants( currentFontBody, dropdownBody );
+
+                // Populate body variants selects
+                for (var i = 0, l = bodyVariants.length; i < l; i++) {
+                    dropdownBodyVariants.append('<option value="' + bodyVariants[i] + '">' + bodyVariants[i] + '</option>')
+                }
+
+                // Body: Define options to be selected and update params variables
+                var regularBodyVariant = dropdownBodyVariants.find( 'option[value="regular"]' );
+                if( prevBodyVariant && $.inArray( prevBodyVariant, currentFontBodyAllVariants ) != -1 ) { // Get latest font variant selected
+                    dropdownBodyVariants.find( 'option[value="' + prevBodyVariant + '"]' ).prop( 'selected', true );
+                    currentFontBodyVariants = prevBodyVariant;
+                } else if( regularBodyVariant.length ) { // Get regular variant
+                    dropdownBodyVariants.find( 'option[value="regular"]' ).prop( 'selected', true );
+                    currentFontBodyVariants = 'regular';
+                } else {
+                    dropdownBodyVariants.find( 'option:first-of-type' ).prop( 'selected', true );
+                    currentFontBodyVariants = dropdownBodyVariants.find( 'option:first-of-type' ).val();
+                }
             }
         }
 
         function _updateFonts() {
 
-            // Get all variants of a font
-            currentFontHeadingsAllVariants = _parseVariants( currentFontHeadings, dropdownHeadings ),
-            currentFontBodyAllVariants = _parseVariants( currentFontBody, dropdownBody ),
-            families = [ currentFontHeadings + ':' + currentFontHeadingsAllVariants, currentFontBody + ':' + currentFontBodyAllVariants ];
+            if( currentFontHeadings == null && currentFontBody == null ) {
+                //return; // Stop executing code below
+            }
 
-            // Avoid double font loading
-            if( currentFontHeadings == currentFontBody ) {
-                families = [ currentFontHeadings + ':' + currentFontHeadingsAllVariants ];
+            // Init array
+            families = [];
+
+
+            // Get all variants of a font
+            if( currentFontHeadings ) {
+                currentFontHeadingsAllVariants = _parseVariants( currentFontHeadings, dropdownHeadings );
+                var headingsArray = currentFontHeadings + ':' + currentFontHeadingsAllVariants;
+                // Check it isn't in the array and push
+                $.inArray( headingsArray, families ) == -1 && families.push( headingsArray );
+            }
+            if( currentFontBody ) {
+                currentFontBodyAllVariants = _parseVariants( currentFontBody, dropdownBody );
+                var bodyArray = currentFontBody + ':' + currentFontBodyAllVariants;
+                // Check it isn't in the array and push
+                $.inArray( bodyArray, families ) == -1 && families.push( bodyArray );
             }
 
             WebFont.load({
