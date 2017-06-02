@@ -45,6 +45,7 @@ window.googlefonts = window.googlefonts || {};
             dropdownBodyVariants = $( '#body-fonts-variant' ),
             headings = $( 'h1, h2, h3, h4, h5, h6' ),
             body = $( 'body' ),
+            urlParams,
             currentFontHeadings,
             currentFontHeadingsVariants,
             currentFontBody,
@@ -69,9 +70,9 @@ window.googlefonts = window.googlefonts || {};
 
         function _transformToArray( paramString ) {
             var tags = {};
-            var kvvp = paramString.split( '&' );
-            for ( var i = 0; i < kvvp.length; i++ ) {
-                var x = kvvp[i].split( '=' ),
+            var tagsArray = paramString.split( '&' );
+            for ( var i = 0; i < tagsArray.length; i++ ) {
+                var x = tagsArray[i].split( '=' ),
                     y = x[1].split( ':' );
 
                 tags[x[0]] = [y[0], y[1]];
@@ -81,38 +82,39 @@ window.googlefonts = window.googlefonts || {};
         }
 
         function _insertParam( key, value, variant ) {
+
             key = escape( key ); value = escape( value ); variant = escape( variant );
 
-            var kvvp = document.location.search.substr( 1 ).split( '&' );
-            if ( kvvp == '' ) {
+            if ( urlParams == '' ) {
                 history.pushState({}, '', '?' + key + '=' + value + ':' + variant );
             } else {
 
-                var i = kvvp.length; var x; var y; while ( i-- ) {
-                    x = kvvp[i].split( '=' ),
+                var i = urlParams.length; var x; var y; while ( i-- ) {
+                    x = urlParams[i].split( '=' ),
                     y = x[1].split( ':' );
 
                     if ( x[0] == key ) {
                         y[0] = value;
                         y[1] = variant;
                         x[1] = y.join( ':' );
-                        kvvp[i] = x.join( '=' );
+                        urlParams[i] = x.join( '=' );
                         break;
                     }
                 }
 
                 if ( i < 0 ) {
                     var y = [value, variant].join( ':' )
-                    kvvp[kvvp.length] = [key, y].join( '=' );
+                    urlParams[urlParams.length] = [key, y].join( '=' );
                 }
-
-                history.pushState({}, '', '?' + kvvp.join( '&' ) );
             }
         }
 
-        function _updateParams() {    	
+        function _updateParams() {
+            urlParams = document.location.search.substr( 1 ).split( '&' );
+
             currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ), currentFontHeadingsVariants.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) , currentFontBodyVariants.replace( /\s/g, '' ) );
+            history.pushState({}, '', '?' + urlParams.join( '&' ) );
         }
 
         function _loadParams() {
