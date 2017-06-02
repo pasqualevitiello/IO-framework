@@ -144,7 +144,9 @@ window.googlefonts = window.googlefonts || {};
         function _displayFonts() {
             $('body').addClass('has-font-loaded');
 
-            for (var i = 0, l = fonts.length; i < l; i++) {
+            dropdownHeadings.append('<option disabled selected>-- Pick a Font --</option>');
+            dropdownBody.append('<option disabled selected>-- Pick a Font --</option>');
+            for(var i = 0, l = fonts.length; i < l; i++) {
                 dropdownHeadings.append('<option value="' + fonts[i].family + '" data-variants=\'' + JSON.stringify( fonts[i].variants ) + '\'>' + fonts[i].family + '</option>');
                 dropdownBody.append('<option value="' + fonts[i].family + '" data-variants=\'' + JSON.stringify( fonts[i].variants ) + '\'>' + fonts[i].family + '</option>');
                 //$('body').prepend('<div style="text-align:right">' + JSON.stringify(fonts[i]) + '</div><br>');
@@ -278,23 +280,27 @@ window.googlefonts = window.googlefonts || {};
 
             // Convert headings variants to font-weight and font style
             var currentFontHeadingsWeight, currentFontHeadingsStyle;
-            if( currentFontHeadingsVariants.indexOf( 'italic' ) !== -1 ) {
-                currentFontHeadingsWeight = currentFontHeadingsVariants.length > 6 ? currentFontHeadingsVariants.replace( 'italic', '' ) : 'normal';
-                currentFontHeadingsStyle = 'italic';
-            } else if( currentFontHeadingsVariants.indexOf( 'regular' ) !== -1 ) {
-                currentFontHeadingsWeight = 'normal';
-                currentFontHeadingsStyle = 'normal';
-            } else {
-                currentFontHeadingsWeight = currentFontHeadingsVariants;
-                currentFontHeadingsStyle = 'normal';
+            if ( currentFontHeadingsVariants ) {
+                if( currentFontHeadingsVariants.indexOf( 'italic' ) !== -1 ) {
+                    currentFontHeadingsWeight = currentFontHeadingsVariants.length > 6 ? currentFontHeadingsVariants.replace( 'italic', '' ) : 'normal';
+                    currentFontHeadingsStyle = 'italic';
+                } else if( currentFontHeadingsVariants.indexOf( 'regular' ) !== -1 ) {
+                    currentFontHeadingsWeight = 'normal';
+                    currentFontHeadingsStyle = 'normal';
+                } else {
+                    currentFontHeadingsWeight = currentFontHeadingsVariants;
+                    currentFontHeadingsStyle = 'normal';
+                }
             }
 
             // Convert body variants to font-weight and font style
             var currentFontBodyWeight;
-            if( currentFontBodyVariants.indexOf( 'regular' ) !== -1 ) {
-                currentFontBodyWeight = 'normal';
-            } else {
-                currentFontBodyWeight = currentFontBodyVariants;
+            if( currentFontBodyVariants ) {
+                if( currentFontBodyVariants.indexOf( 'regular' ) !== -1 ) {
+                    currentFontBodyWeight = 'normal';
+                } else {
+                    currentFontBodyWeight = currentFontBodyVariants;
+                }
             }
 
             // Load fonts
