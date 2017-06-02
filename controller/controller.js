@@ -1,6 +1,6 @@
 /**
  * Create and append HTML
- */	
+ */ 
 var controllerWrapper = document.createElement('div');
 controllerWrapper.id = 'controller';
 document.body.insertBefore( controllerWrapper, document.body.firstChild );
@@ -40,12 +40,13 @@ window.googlefonts = window.googlefonts || {};
     googlefonts.LoadFonts = (function() {
 
         var dropdownHeadings = $( '#headings-fonts' ),
-        	dropdownBody = $( '#body-fonts' ),
+            dropdownBody = $( '#body-fonts' ),
             dropdownHeadingsVariants = $( '#headings-fonts-variant' ),
             dropdownBodyVariants = $( '#body-fonts-variant' ),
             headings = $( 'h1, h2, h3, h4, h5, h6' ),
             body = $( 'body' ),
-            urlParams,
+            paramsString = window.location.search.substr(1),
+            paramsArray,
             currentFontHeadings,
             currentFontHeadingsVariants,
             currentFontBody,
@@ -64,13 +65,12 @@ window.googlefonts = window.googlefonts || {};
             families;    
 
         function _getParam() {
-            var paramString = window.location.search.substr( 1 );
-            return paramString != null && paramString != '' ? _transformToArray( paramString ) : {};
+            return paramsString != null && paramsString != '' ? _transformToArray( paramsString ) : {};
         }
 
-        function _transformToArray( paramString ) {
+        function _transformToArray( paramsString ) {
             var tags = {};
-            var tagsArray = paramString.split( '&' );
+            var tagsArray = paramsString.split( '&' );
             for ( var i = 0; i < tagsArray.length; i++ ) {
                 var x = tagsArray[i].split( '=' ),
                     y = x[1].split( ':' );
@@ -85,63 +85,63 @@ window.googlefonts = window.googlefonts || {};
 
             key = escape( key ); value = escape( value ); variant = escape( variant );
 
-            if ( urlParams == '' ) {
+            if ( paramsArray == '' ) {
                 history.pushState({}, '', '?' + key + '=' + value + ':' + variant );
             } else {
 
-                var i = urlParams.length; var x; var y; while ( i-- ) {
-                    x = urlParams[i].split( '=' ),
+                var i = paramsArray.length; var x; var y; while ( i-- ) {
+                    x = paramsArray[i].split( '=' ),
                     y = x[1].split( ':' );
 
                     if ( x[0] == key ) {
                         y[0] = value;
                         y[1] = variant;
                         x[1] = y.join( ':' );
-                        urlParams[i] = x.join( '=' );
+                        paramsArray[i] = x.join( '=' );
                         break;
                     }
                 }
 
                 if ( i < 0 ) {
                     var y = [value, variant].join( ':' )
-                    urlParams[urlParams.length] = [key, y].join( '=' );
+                    paramsArray[paramsArray.length] = [key, y].join( '=' );
                 }
             }
         }
 
         function _updateParams() {
-            urlParams = document.location.search.substr( 1 ).split( '&' );
+            paramsArray = document.location.search.substr(1).split( '&' );
 
             currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ), currentFontHeadingsVariants.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) , currentFontBodyVariants.replace( /\s/g, '' ) );
-            history.pushState({}, '', '?' + urlParams.join( '&' ) );
+            history.pushState({}, '', '?' + paramsArray.join( '&' ) );
         }
 
         function _loadParams() {
             headingsParam = _getParam().h ? _getParam().h[0] : null,
             headingsVariantsParam = _getParam().h ? _getParam().h[1] : null,
-        	bodyParam = _getParam().b ? _getParam().b[0] : null,
+            bodyParam = _getParam().b ? _getParam().b[0] : null,
             bodyVariantsParam = _getParam().b ? _getParam().b[1] : null;
 
             $.each(fonts, function(index, item) {
-            	if (item.family.replace(/\s/g, '') === headingsParam) {
-            	    currentFontHeadings = item.family;
-            	    fontIndexHeadings = index;
+                if (item.family.replace(/\s/g, '') === headingsParam) {
+                    currentFontHeadings = item.family;
+                    fontIndexHeadings = index;
                     // Font Variant param
                     if( headingsVariantsParam && $.inArray( headingsVariantsParam, item.variants ) != -1 ) {
                         currentFontHeadingsVariants = headingsVariantsParam;
                         fontIndexHeadingsVariants = item.variants.indexOf(headingsVariantsParam);
                     }
-            	}
-        	    if (item.family.replace(/\s/g, '') === bodyParam) {
-        	        currentFontBody = item.family;
-        	        fontIndexBody = index;
+                }
+                if (item.family.replace(/\s/g, '') === bodyParam) {
+                    currentFontBody = item.family;
+                    fontIndexBody = index;
                     // Font Variant param
                     if( bodyVariantsParam && $.inArray( bodyVariantsParam, item.variants ) != -1 ) {
                         currentFontBodyVariants = bodyVariantsParam;
                         fontIndexBodyVariants = item.variants.indexOf(bodyVariantsParam);
                     }
-        	    }
+                }
             });
         }
 
