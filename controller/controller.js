@@ -111,17 +111,17 @@ window.googlefonts = window.googlefonts || {};
 
         function _updateParams() {
             paramsArray = document.location.search.substr(1).split( '&' );
-
             currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ), currentFontHeadingsVariants.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) , currentFontBodyVariants.replace( /\s/g, '' ) );
-            history.pushState({}, '', '?' + paramsArray.join( '&' ) );
+            paramsArray != '' && history.pushState({}, '', '?' + paramsArray.join( '&' ) );
         }
 
         function _loadParams() {
-            headingsParam = _getParam().h ? _getParam().h[0] : null,
-            headingsVariantsParam = _getParam().h ? _getParam().h[1] : null,
-            bodyParam = _getParam().b ? _getParam().b[0] : null,
-            bodyVariantsParam = _getParam().b ? _getParam().b[1] : null;
+            var parseParams = _getParam();
+            headingsParam = parseParams.h ? parseParams.h[0] : null,
+            headingsVariantsParam = parseParams.h ? parseParams.h[1] : null,
+            bodyParam = parseParams.b ? parseParams.b[0] : null,
+            bodyVariantsParam = parseParams.b ? parseParams.b[1] : null;
 
             $.each(fonts, function(index, item) {
                 if (item.family.replace(/\s/g, '') === headingsParam) {
