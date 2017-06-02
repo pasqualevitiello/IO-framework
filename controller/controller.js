@@ -16,7 +16,7 @@ var apiKey = 'AIzaSyBS2UUiahoRjToJ9g2C5Je1aHcwfFKkHPQ';
 
 // Add WebFont script
 var webfontsScript = document.createElement( 'script' );
-webfontsScript.src = 'http://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
+webfontsScript.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
 document.body.appendChild( webfontsScript );
 
 // Add Client script
