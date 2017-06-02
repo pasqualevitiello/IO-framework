@@ -110,16 +110,16 @@ window.googlefonts = window.googlefonts || {};
             }
         }
 
-        function _updateParams() {        	
+        function _updateParams() {    	
             currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ), currentFontHeadingsVariants.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) , currentFontBodyVariants.replace( /\s/g, '' ) );
         }
 
         function _loadParams() {
-            headingsParam = _getParam().h[0],
-            headingsVariantsParam = _getParam().h[1],
-        	bodyParam = _getParam().b[0],
-            bodyVariantsParam = _getParam().b[1];
+            headingsParam = _getParam().h ? _getParam().h[0] : null,
+            headingsVariantsParam = _getParam().h ? _getParam().h[1] : null,
+        	bodyParam = _getParam().b ? _getParam().b[0] : null,
+            bodyVariantsParam = _getParam().b ? _getParam().b[1] : null;
 
             $.each(fonts, function(index, item) {
             	if (item.family.replace(/\s/g, '') === headingsParam) {
@@ -151,8 +151,8 @@ window.googlefonts = window.googlefonts || {};
         function _displayFonts() {
             $('body').addClass('has-font-loaded');
 
-            dropdownHeadings.append('<option disabled selected>-- Pick a Font --</option>');
-            dropdownBody.append('<option disabled selected>-- Pick a Font --</option>');
+            //dropdownHeadings.append('<option disabled selected>-- Pick a Font --</option>');
+            //dropdownBody.append('<option disabled selected>-- Pick a Font --</option>');
             for(var i = 0, l = fonts.length; i < l; i++) {
                 dropdownHeadings.append('<option value="' + fonts[i].family + '" data-variants=\'' + JSON.stringify( fonts[i].variants ) + '\'>' + fonts[i].family + '</option>');
                 dropdownBody.append('<option value="' + fonts[i].family + '" data-variants=\'' + JSON.stringify( fonts[i].variants ) + '\'>' + fonts[i].family + '</option>');
