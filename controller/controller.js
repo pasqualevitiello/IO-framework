@@ -64,55 +64,62 @@ window.googlefonts = window.googlefonts || {};
 
         function _getParam() {
             var paramString = window.location.search.substr( 1 );
-            return paramString != null && paramString != '' ? _transformToAssocArray( paramString ) : {};
+            return paramString != null && paramString != '' ? _transformToArray( paramString ) : {};
         }
 
-        function _transformToAssocArray( paramString ) {
-            var params = {};
-            var paramsArray = paramString.split( '&' );
-            for ( var i = 0; i < paramsArray.length; i++ ) {
-                var tempArray = paramsArray[i].split( '=' );
-                params[tempArray[0]] = tempArray[1];
+        function _transformToArray( paramString ) {
+            var tags = {};
+            var kvvp = paramString.split( '&' );
+            for ( var i = 0; i < kvvp.length; i++ ) {
+                var x = kvvp[i].split( '=' ),
+                    y = x[1].split( ':' );
+
+                tags[x[0]] = [y[0], y[1]];
             }
-            return params;
+
+            return tags;
         }
 
-        function _insertParam( key, value ) {
-            key = escape( key ); value = escape( value );
+        function _insertParam( key, value, variant ) {
+            key = escape( key ); value = escape( value ); variant = escape( variant );
 
-            var kvp = document.location.search.substr( 1 ).split( '&' );
-            if ( kvp == '' ) {
-                history.pushState({}, '', '?' + key + '=' + value );
+            var kvvp = document.location.search.substr( 1 ).split( '&' );
+            if ( kvvp == '' ) {
+                history.pushState({}, '', '?' + key + '=' + value + ':' + variant );
             } else {
 
-                var i = kvp.length; var x; while ( i-- ) {
-                    x = kvp[i].split( '=' );
+                var i = kvvp.length; var x; var y; while ( i-- ) {
+                    x = kvvp[i].split( '=' ),
+                    y = x[1].split( ':' );
 
                     if ( x[0] == key ) {
-                        x[1] = value;
-                        kvp[i] = x.join( '=' );
+                        y[0] = value;
+                        y[1] = variant;
+                        x[1] = y.join( ':' );
+                        kvvp[i] = x.join( '=' );
                         break;
                     }
                 }
 
-                if ( i < 0 ) { kvp[kvp.length] = [key, value].join( '=' ); }
+                if ( i < 0 ) {
+                    var y = [value, variant].join( ':' )
+                    kvvp[kvvp.length] = [key, y].join( '=' );
+                }
 
-                history.pushState({}, '', '?' + kvp.join( '&' ) );
+                history.pushState({}, '', '?' + kvvp.join( '&' ) );
             }
         }
 
         function _updateParams() {        	
-            currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ) );
-            currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) );
-            currentFontHeadingsVariants && _insertParam( 'hv', currentFontHeadingsVariants.replace( /\s/g, '' ) );
-            currentFontBodyVariants && _insertParam( 'bv', currentFontBodyVariants.replace( /\s/g, '' ) );
+            currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ), currentFontHeadingsVariants.replace( /\s/g, '' ) );
+            currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) , currentFontBodyVariants.replace( /\s/g, '' ) );
         }
 
         function _loadParams() {
-            headingsParam = _getParam().h,
-            headingsVariantsParam = _getParam().hv,
-        	bodyParam = _getParam().b,
-            bodyVariantsParam = _getParam().bv;
+            headingsParam = _getParam().h[0],
+            headingsVariantsParam = _getParam().h[1],
+        	bodyParam = _getParam().b[0],
+            bodyVariantsParam = _getParam().b[1];
 
             $.each(fonts, function(index, item) {
             	if (item.family.replace(/\s/g, '') === headingsParam) {
