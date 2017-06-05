@@ -25,7 +25,7 @@ webfontsScript.src = 'https://apis.google.com/js/client.js?onload=loadFonts';
 document.body.appendChild( webfontsScript );
 
 // Create Typography controller HTML
-var controllerTypography = '<div class="typography-controller"><h4>Headings typography</h4><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><h4>Body typography</h4><select id="body-fonts"></select><select id="body-fonts-variant"></select></div>';
+var controllerTypography = '<div class="typography-controller"><h4>Headings typography</h4><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><h4>Body typography</h4><select id="body-fonts"></select><select id="body-fonts-variant"></select><h4>Body font size</h4><input name="body-font-size-s" id="body-font-size-s" min="14" max="20" step="1" type="number" value="16"><input name="body-font-size-m" id="body-font-size-m" min="14" max="20" step="1" type="number" value="18"></div>';
 controllerWrapper.innerHTML = controllerTypography;
 
 // Load Google Fonts - Crafted from:
