@@ -25,26 +25,39 @@ webfontsScript.src = 'https://apis.google.com/js/client.js?onload=loadFonts';
 document.body.appendChild( webfontsScript );
 
 // Create Typography controller HTML
-var controllerTypography = '<div class="typography-controller"><h4>Headings typography</h4><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><h4>Body typography</h4><select id="body-fonts"></select><select id="body-fonts-variant"></select><h4>Body font size</h4><input name="body-font-size-s" id="body-font-size-s" min="14" max="20" step="1" type="number" value="16"><input name="body-font-size-m" id="body-font-size-m" min="14" max="20" step="1" type="number" value="18"></div>';
+var controllerTypography = '<div class="typography-controller"><h4>Headings typography</h4><select id="headings-fonts"></select><select id="headings-fonts-variant"></select><h4>Body typography</h4><select id="body-fonts"></select><select id="body-fonts-variant"></select><h4>Body font size</h4><input name="body-font-size-s" id="body-font-size-s" class="font-size-controller" min="14" max="20" step="1" type="number" value="16"><input name="body-font-size-m" id="body-font-size-m" class="font-size-controller" min="14" max="20" step="1" type="number" value="18"></div>';
 controllerWrapper.innerHTML = controllerTypography;
+
+// Create font style bucket
+var styleBucket = document.createElement( 'style' );
+styleBucket.setAttribute( 'id', 'style-bucket' );
+document.head.appendChild( styleBucket );
+
+// Create font size bucket
+var sizeBucket = document.createElement( 'style' );
+sizeBucket.setAttribute( 'id', 'size-bucket' );
+document.head.appendChild( sizeBucket );
 
 // Load Google Fonts - Crafted from:
 // https://github.com/lefoy/google-fonts/blob/master/public/js/components/GoogleFonts.js
-window.googlefonts = window.googlefonts || {};
+window.typographycontroller = window.typographycontroller || {};
 
 (function(window, document, $) {
 
     "use strict"; 
 
     // Google Fonts handling
-    googlefonts.LoadFonts = (function() {
+    typographycontroller.LoadFonts = (function() {
 
         var dropdownHeadings = $( '#headings-fonts' ),
             dropdownBody = $( '#body-fonts' ),
             dropdownHeadingsVariants = $( '#headings-fonts-variant' ),
             dropdownBodyVariants = $( '#body-fonts-variant' ),
-            headings = $( 'h1, h2, h3, h4, h5, h6' ),
-            body = $( 'body' ),
+            fontSizeControllers = $( '.font-size-controller' ),
+            styleBucket = $( '#style-bucket' ),
+            sizeBucket = $( '#size-bucket' ),
+            headingsTarget = 'h1, h2, h3, h4, h5, h6',
+            bodyTarget = 'html',
             paramsString = window.location.search.substr(1),
             paramsArray,
             currentFontHeadings,
@@ -53,6 +66,8 @@ window.googlefonts = window.googlefonts || {};
             currentFontBodyVariants,
             currentFontHeadingsAllVariants,
             currentFontBodyAllVariants,
+            currentBodySizeS,
+            currentBodySizeM,
             fontIndexHeadings,
             fontIndexHeadingsVariants,
             headingsParam,
@@ -61,6 +76,8 @@ window.googlefonts = window.googlefonts || {};
             fontIndexBodyVariants,
             bodyParam,
             bodyVariantsParam,
+            bodySizeSParams,
+            bodySizeMParams,
             fonts,
             families;    
 
@@ -113,6 +130,7 @@ window.googlefonts = window.googlefonts || {};
             paramsArray = document.location.search.substr(1).split( '&' );
             currentFontHeadings && _insertParam( 'h', currentFontHeadings.replace( /\s/g, '' ), currentFontHeadingsVariants.replace( /\s/g, '' ) );
             currentFontBody && _insertParam( 'b', currentFontBody.replace( /\s/g, '' ) , currentFontBodyVariants.replace( /\s/g, '' ) );
+            ( currentBodySizeS && currentBodySizeM ) && _insertParam( 'bfs', currentBodySizeS.replace( /\s/g, '' ), currentBodySizeM.replace( /\s/g, '' ) );
             paramsArray != '' && history.pushState({}, '', '?' + paramsArray.join( '&' ) );
         }
 
@@ -121,7 +139,9 @@ window.googlefonts = window.googlefonts || {};
             headingsParam = parseParams.h ? parseParams.h[0] : null,
             headingsVariantsParam = parseParams.h ? parseParams.h[1] : null,
             bodyParam = parseParams.b ? parseParams.b[0] : null,
-            bodyVariantsParam = parseParams.b ? parseParams.b[1] : null;
+            bodyVariantsParam = parseParams.b ? parseParams.b[1] : null,
+            bodySizeSParams = parseParams.bfs ? parseParams.bfs[0] : '16',
+            bodySizeMParams = parseParams.bfs ? parseParams.bfs[1] : '18';
 
             $.each(fonts, function(index, item) {
                 if (item.family.replace(/\s/g, '') === headingsParam) {
@@ -143,11 +163,16 @@ window.googlefonts = window.googlefonts || {};
                     }
                 }
             });
+
+            currentBodySizeS = bodySizeSParams;
+            currentBodySizeM = bodySizeMParams;
         }
 
         function _syncSelects() {
             dropdownHeadings.find('option').eq(fontIndexHeadings).attr('selected', 'selected');
             dropdownBody.find('option').eq(fontIndexBody).attr('selected', 'selected');
+            $('#body-font-size-s').val(bodySizeSParams);
+            $('#body-font-size-m').val(bodySizeMParams);
         }
 
         function _displayFonts() {
@@ -318,17 +343,41 @@ window.googlefonts = window.googlefonts || {};
                     families: uniqueFamilies
                 },
                 active: function() {
-                    headings.css({
-                        'font-family': currentFontHeadings,
-                        'font-weight': currentFontHeadingsWeight,
-                        'font-style': currentFontHeadingsStyle
-                    });
-                    body.css({
-                        'font-family': currentFontBody,
-                        'font-weight': currentFontBodyWeight
-                    });
+                    var headingsStyle = '',
+                        bodyStyle = '';
+                    if( currentFontHeadings ) {
+                        headingsStyle = headingsTarget + ' { ';
+                        headingsStyle += 'font-family:' + currentFontHeadings + ';';
+                        headingsStyle += 'font-weight:' + currentFontHeadingsWeight + ';';
+                        headingsStyle += 'font-style:' + currentFontHeadingsStyle + ';';
+                        headingsStyle += ' } ';
+                    }
+                    if( currentFontBody ) {
+                        bodyStyle = bodyTarget + ' { ';
+                        bodyStyle += 'font-family:' + currentFontBody + ';';
+                        bodyStyle += 'font-weight:' + currentFontBodyWeight + ';';
+                        bodyStyle += ' } ';
+                    }
+                    styleBucket.html('').append( headingsStyle + bodyStyle );
                 }
             });
+
+            _updateParams();
+        }
+
+        function _updateSizes() {
+            var headingsSize = '',
+                bodySize = '';
+
+            bodySize = bodyTarget + ' { ';
+            bodySize += 'font-size:' + currentBodySizeS + 'px;';
+            bodySize += ' } ';
+            bodySize += '@media (min-width: 768px) { ';
+            bodySize += bodyTarget + ' { ';
+            bodySize +=  'font-size:' + currentBodySizeM + 'px;';
+            bodySize += ' } ';
+            bodySize += ' } ';
+            sizeBucket.html('').append( bodySize );
 
             _updateParams();
         }
@@ -344,6 +393,7 @@ window.googlefonts = window.googlefonts || {};
                     _displayVariants();
                     _syncSelects();
                     _updateFonts();
+                    _updateSizes();
                 });
 
             });
@@ -367,9 +417,14 @@ window.googlefonts = window.googlefonts || {};
                 _syncSelects();
                 _updateFonts();
             });
-            dropdownBodyVariants.on(' change', function() {
+            dropdownBodyVariants.on( 'change', function() {
                 currentFontBodyVariants = $(this).val().toString();
                 _updateFonts();
+            });
+            fontSizeControllers.on( 'change', function() {
+                currentBodySizeS = $( '#body-font-size-s' ).val().toString();
+                currentBodySizeM = $( '#body-font-size-m' ).val().toString();
+                _updateSizes();
             });
         }
 
@@ -461,5 +516,5 @@ window.googlefonts = window.googlefonts || {};
 
 // Init loadFonts
 var loadFonts = function() {
-    window.googlefonts.LoadFonts.init();
+    window.typographycontroller.LoadFonts.init();
 };
